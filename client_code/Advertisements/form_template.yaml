@@ -1,0 +1,133 @@
+container: {type: ColumnPanel}
+components:
+- name: column_panel
+  properties: {role: elevated-card}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'EJTMCK,FZSYEM', full_width_row: true}
+  components:
+  - name: label_ads_title
+    properties: {text: Advertisements, bold: true, role: title}
+    type: Label
+    layout_properties: {grid_position: 'YWJMCA,OTHTBG', full_width_row: true}
+  - name: column_panel_4
+    properties: {role: elevated-card}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'UGVMCL,DSBVZD', full_width_row: true}
+    components:
+    - name: label_8
+      properties: {text: Note, bold: true}
+      type: Label
+      layout_properties: {grid_position: 'GVIWWS,ONIWAV', full_width_row: true}
+    - name: label_rate
+      properties: {text: 'Rate of placing an advertisement on DubTube: 1 USD per advertisement
+          per day.'}
+      type: Label
+      layout_properties: {grid_position: 'LWLUIO,SVHPNF', full_width_row: true}
+    - name: label_4
+      properties: {text: Please do not pay before your ad is accepted.}
+      type: Label
+      layout_properties: {grid_position: 'YXWYZI,DOXJTN', full_width_row: true}
+    - name: label_5
+      properties: {text: Ads in the past are automatically deleted.}
+      type: Label
+      layout_properties: {grid_position: 'LDCHWV,EQKWFJ', full_width_row: true}
+  - name: spacer_4
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {grid_position: 'CHURYB,SCZPEX', full_width_row: true}
+  - name: column_panel_availability
+    properties: {role: elevated-card}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'NPQUSL,NRVUVX', full_width_row: true}
+    components:
+    - name: label_10
+      properties: {text: Slots Availability, align: center, bold: true, role: title}
+      type: Label
+      layout_properties: {grid_position: 'HSNFBR,SEGGFX', full_width_row: true}
+    - name: flow_panel_1
+      properties: {align: center, spacing: small}
+      type: FlowPanel
+      layout_properties: {grid_position: 'FCKXVY,ADODJY', full_width_row: true}
+      components:
+      - name: label_availability
+        properties: {align: right, text: ''}
+        type: Label
+        layout_properties: {}
+      - name: label_1
+        properties: {text: ad-slots available for the next 30 days}
+        type: Label
+        layout_properties: {}
+  - name: spacer_1
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {grid_position: 'TIZLBM,GCCODY', full_width_row: true}
+  - name: column_panel_2
+    properties: {role: elevated-card, col_widths: '{}'}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'KVIIHI,CHHPGZ', full_width_row: true}
+    components:
+    - name: label_2
+      properties: {bold: true, text: DubTube PayPal Account, role: title, align: center}
+      type: Label
+      layout_properties: {grid_position: 'MPDIPM,RZIZJH', full_width_row: true}
+    - name: link_DubTube_paypal
+      properties: {spacing_above: medium, align: center, url: 'https://www.paypal.com/donate/?hosted_button_id=ZHM7JT2V9UV2N',
+        text: Link to make payment to DubTube's PayPal, tooltip: Go to DubTube's PayPal page}
+      type: Link
+      layout_properties: {grid_position: 'IIHYGK,COKQMN', full_width_row: true}
+      components:
+      - name: image_1
+        properties: {source: _/theme/Paypal_logo.png, height: '60'}
+        type: Image
+        layout_properties: {grid_position: 'YIDUJL,DYOCUS'}
+  - name: spacer_2
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {grid_position: 'PBBKLY,XFTSHJ', full_width_row: true}
+  - name: column_panel_3
+    properties: {role: elevated-card}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'HJNSDF,LEFWCA', full_width_row: true}
+    components:
+    - name: flow_panel_5
+      properties: {}
+      type: FlowPanel
+      layout_properties: {grid_position: 'CBQIGW,CXTWGS', full_width_row: true}
+      components:
+      - name: label_3
+        properties: {bold: true, text: Your Ads, role: title}
+        type: Label
+        layout_properties: {}
+      - name: spacer_3
+        properties: {height: 32}
+        type: Spacer
+        layout_properties: {expand: true}
+      - name: button_apply
+        properties: {text: '', role: filled-button, icon: 'fa:plus', tooltip: Create a new advertisement application}
+        type: Button
+        event_bindings: {click: button_apply_click}
+        layout_properties: {}
+    - name: label_12
+      properties: {text: 'Note:', bold: true}
+      type: Label
+      layout_properties: {grid_position: 'MLPUPA,HIYUHY', full_width_row: true}
+    - name: label_11
+      properties: {text: "Once the ad is accepted/approved, edit is not allowed.\n\
+          \nPlease pay to the PayPal account after the ad's status changed to 'accepted'.\
+          \ \n\nAd will be displayed once its status changed to 'approved'."}
+      type: Label
+      layout_properties: {grid_position: 'JRDQPW,REZAQQ', full_width_row: true}
+  - name: column_panel_no_ads
+    properties: {role: elevated-card, visible: false}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'OHGBQH,KOBMWA', full_width_row: true}
+    components:
+    - name: label_no_ads
+      properties: {align: center, text: You have no ads.}
+      type: Label
+      layout_properties: {grid_position: 'JUBIUD,NVDXRX', full_width_row: true}
+  - name: repeating_panel_ads
+    properties: {item_template: AdsInfoBar}
+    type: RepeatingPanel
+    layout_properties: {grid_position: 'HGWKOW,RBVYRB', full_width_row: true}
+is_package: true

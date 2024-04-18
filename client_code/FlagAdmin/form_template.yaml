@@ -1,0 +1,31 @@
+container: {type: ColumnPanel}
+components:
+- name: column_panel_receivedFlag
+  properties: {role: elevated-card}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'FYNKBS,KSRRWR', full_width_row: true}
+  components:
+  - name: label_allFlags
+    properties: {text: All Flags, bold: true, role: title}
+    type: Label
+    layout_properties: {grid_position: 'RUYFLC,KXIHVM', full_width_row: true}
+  - name: label_seekable
+    properties: {align: center, text: 'To load page within reasonable amount of time,
+        lazy media is used, and audio is not seekable. View in Video page for seekable
+        audio.'}
+    type: Label
+    layout_properties: {grid_position: 'FXQPOA,EMSJQK', full_width_row: true}
+  - name: column_panel_noReceivedFlag
+    properties: {role: elevated-card, visible: false}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'MMZRVL,KXJTYH', full_width_row: true}
+    components:
+    - name: label_noReceivedFlag
+      properties: {align: center, text: No received flags found.}
+      type: Label
+      layout_properties: {grid_position: 'KURNII,XSCHIQ'}
+  - name: repeating_panel_receivedFlags
+    properties: {item_template: FlagReceivedInfoBar}
+    type: RepeatingPanel
+    layout_properties: {grid_position: 'MIEANN,PYQLGT', full_width_row: true}
+is_package: true

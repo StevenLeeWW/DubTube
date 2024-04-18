@@ -1,0 +1,123 @@
+properties:
+- {name: mode, type: string, default_value: '', important: true, default_binding_prop: true}
+is_package: true
+toolbox_item: {hidden: true}
+custom_component: true
+components:
+- name: column_panel_content
+  properties: {}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'ULNNAB,ZHQVMH'}
+  components:
+  - name: label_panelTitle
+    properties: {role: title, bold: true}
+    type: Label
+    layout_properties: {grid_position: 'CGYXBB,ZKJNJY'}
+  - name: spacer_4
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {grid_position: 'WETRKC,INGDIV'}
+  - name: column_panel_4
+    properties: {col_widths: '{"DHDWZH":20,"ZZFJVD":40}'}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'ALEEHI,XKKKUH'}
+    components:
+    - name: label_videoUrl
+      properties: {text: 'Video URL:       '}
+      type: Label
+      layout_properties: {grid_position: 'UDYSJB,DHDWZH'}
+    - name: text_box_videoUrl
+      properties: {placeholder: Paste video's URL}
+      type: TextBox
+      layout_properties: {grid_position: 'UDYSJB,ZZFJVD'}
+      data_bindings:
+      - {property: text, code: 'self.item[''videoUrl'']', writeback: true}
+  - name: spacer_1
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {grid_position: 'QWERKS,SPSLSM'}
+  - name: column_panel_3
+    properties: {col_widths: '{"FRDMMQ":20,"SWQNMQ":40}'}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'DWJPJU,DAAATQ'}
+    components:
+    - name: label_language
+      properties: {text: 'Language:          '}
+      type: Label
+      layout_properties: {grid_position: 'TDINZH,FRDMMQ'}
+    - name: drop_down_language
+      properties: {placeholder: Select Language, include_placeholder: false}
+      type: DropDown
+      layout_properties: {grid_position: 'TDINZH,SWQNMQ'}
+      data_bindings:
+      - {property: selected_value, code: 'self.item[''language'']', writeback: true}
+  - name: spacer_2
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {grid_position: 'VSKYJQ,ZPROZN'}
+  - name: column_panel_2
+    properties: {col_widths: '{"FFKKNI":20,"JFBWTQ":40}'}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'KYJLIG,HYQRTZ'}
+    components:
+    - name: label_accent
+      properties: {text: 'Accent:               '}
+      type: Label
+      layout_properties: {grid_position: 'VYAXGQ,FFKKNI'}
+    - name: drop_down_accent
+      properties: {placeholder: Select Country, include_placeholder: false}
+      type: DropDown
+      layout_properties: {grid_position: 'VYAXGQ,JFBWTQ'}
+      data_bindings:
+      - {property: selected_value, code: 'self.item[''accent'']', writeback: true}
+  - name: spacer_3
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {grid_position: 'PFUIXU,GHNVOT'}
+  - name: column_panel_1
+    properties: {col_widths: '{"DXAUXR":15}'}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'KBXAXN,ONGPFV'}
+    components:
+    - name: label_audio
+      properties: {text: 'Audio file:          ', align: left}
+      type: Label
+      layout_properties: {grid_position: 'LCRQWM,DXAUXR'}
+    - name: file_loader_uploadDub
+      properties: {role: filled-button}
+      type: FileLoader
+      layout_properties: {grid_position: 'LCRQWM,VOQWYV'}
+      event_bindings: {change: file_loader_uploadDub_change}
+  - name: spacer_9
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {grid_position: 'UDHKOB,IPWUEF'}
+  - name: column_panel_validation
+    properties: {}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'LWEALK,UADANG'}
+    components:
+    - name: label_validationMessage
+      properties: {foreground: '#D70040', align: center}
+      type: Label
+      layout_properties: {grid_position: 'REIYWW,JYMUJZ'}
+  - name: flow_panel_13
+    properties: {align: center}
+    type: FlowPanel
+    layout_properties: {grid_position: 'IWDKWO,CYTPLB'}
+    components:
+    - name: button_save
+      properties: {text: Save, role: filled-button}
+      type: Button
+      event_bindings: {click: button_save_click}
+  - name: label_1
+    properties: {text: 'Want to check the transcript? Want to generate the dub by
+        machine?', align: center}
+    type: Label
+    layout_properties: {grid_position: 'HRRPDJ,ZTMNIT'}
+  - name: button_generate
+    properties: {text: Advance options, role: filled-button}
+    type: Button
+    event_bindings: {click: button_generate_click}
+    layout_properties: {grid_position: 'FOLPAO,YVWDQE'}
+container: {type: ColumnPanel}

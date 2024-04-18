@@ -1,0 +1,411 @@
+dependencies:
+- dep_id: dep_7xk71x2l4gu9e
+  version: {dev: false}
+  resolution_hints: {app_id: C6ZZPAPN4YYF5NVJ, name: Anvil Extras, package_name: anvil_extras}
+services:
+- source: /runtime/services/tables.yml
+  client_config: {}
+  server_config: {}
+- source: /runtime/services/anvil/users.yml
+  client_config: {allow_signup: true, enable_automatically: true, use_email: true,
+    confirm_email: true, use_google: false, require_secure_passwords: true}
+  server_config: {user_table: users}
+- source: /runtime/services/google.yml
+  client_config: {}
+  server_config: {enc_delegation_refresh_token: Nauw5HyeHAWtYQpqveBGqPhZw1oY7diSve/LfW4IV70oJoDUDSyI7lNw+d8wFMmn6O4RLxxwJFHyS7iVtGKUb4dTGx30PMSJXSH7DYoM8bH/QxT5/1VLWOmSDhYZU8/tKcrnz4DNQ33GuohA6DyU9ytzCbKM4mWwL92c4wYWpeLz0claTvFBZYUkXAu7cyttKwJM22n0W5jlWq572E/7ubf65tXlhNk6evNzRk4ct/g3fT7bN/Re3Ba+75IYkPjMXe0WVsAsvm3JuiGKo6fl2BqSsyi2QW9yJ4yeqtXXaRaf1tPvuHKYE49Ni/ZDFg==}
+- source: /runtime/services/anvil/email.yml
+  client_config: {}
+  server_config: {test_mode: true, custom_smtp: false}
+startup: {type: form, module: Homepage}
+package_name: DubTube
+allow_embedding: false
+name: DubTube
+runtime_options:
+  version: 2
+  client_version: '3'
+  server_version: python3-sandbox
+  server_spec: null
+  server_spec_disabled: {requirements: '', base: python310-standard}
+metadata: {title: DubTube, logo_img: 'asset:dubtubeLogo512.png', description: Online dub audio sharing platform with auto-dubbing}
+startup_form: null
+db_schema:
+  dislikes:
+    client: none
+    server: full
+    columns:
+    - name: audioRow
+      admin_ui: {order: 0, width: 200}
+      type: link_single
+      target: audios
+    - name: dislikedBy
+      admin_ui: {width: 200, order: 1}
+      type: link_single
+      target: users
+    - name: dislikedOn
+      admin_ui: {width: 200, order: 2}
+      type: datetime
+    title: dislikes
+  transcripts:
+    client: none
+    server: full
+    columns:
+    - name: transcript
+      admin_ui: {order: 2, width: 695}
+      type: simpleObject
+    - name: createdOn
+      admin_ui: {width: 200, order: 4}
+      type: datetime
+    - name: languageCode
+      admin_ui: {order: 5, width: 200}
+      type: string
+    - name: video
+      admin_ui: {order: 6, width: 200}
+      type: link_single
+      target: videos
+    - name: createdBy
+      admin_ui: {width: 200, order: 7}
+      type: link_single
+      target: users
+    - name: dub
+      admin_ui: {width: 200, order: 8}
+      type: media
+    - name: accent
+      admin_ui: {width: 200, order: 9}
+      type: string
+    title: transcript
+  flags:
+    client: none
+    server: full
+    columns:
+    - name: flagReason
+      admin_ui: {width: 200, order: 3}
+      type: string
+    - name: flaggedBy
+      admin_ui: {width: 200, order: 5}
+      type: link_single
+      target: users
+    - name: audioRow
+      admin_ui: {order: 6, width: 200}
+      type: link_single
+      target: audios
+    - name: flaggedOn
+      admin_ui: {width: 200, order: 7}
+      type: datetime
+    - name: flagDetails
+      admin_ui: {width: 200, order: 8}
+      type: string
+    - name: read
+      admin_ui: {width: 200, order: 9}
+      type: bool
+    - name: readAdmin
+      admin_ui: {width: 200, order: 10}
+      type: bool
+    title: flags
+  histories:
+    client: none
+    server: full
+    columns:
+    - name: listenedOn
+      admin_ui: {width: 200, order: 2}
+      type: datetime
+    - name: audioRow
+      admin_ui: {order: 3, width: 200}
+      type: link_single
+      target: audios
+    - name: listenedBy
+      admin_ui: {width: 200, order: 4}
+      type: link_single
+      target: users
+    title: histories
+  users:
+    client: none
+    server: full
+    columns:
+    - name: userID
+      admin_ui: {width: 200, order: 0}
+      type: string
+    - name: email
+      admin_ui: {width: 200, order: 1}
+      type: string
+    - name: profileName
+      admin_ui: {width: 200, order: 3}
+      type: string
+    - name: profileDescription
+      admin_ui: {width: 200, order: 4}
+      type: string
+    - name: subscribers
+      admin_ui: {width: 200, order: 5}
+      type: number
+    - name: dubs
+      admin_ui: {width: 200, order: 6}
+      type: number
+    - name: profilePicture
+      admin_ui: {width: 200, order: 7}
+      type: media
+    - name: enabled
+      admin_ui: {order: 8, width: 200}
+      type: bool
+    - name: last_login
+      admin_ui: {order: 9, width: 200}
+      type: datetime
+    - name: password_hash
+      admin_ui: {order: 10, width: 200}
+      type: string
+    - name: n_password_failures
+      admin_ui: {order: 11, width: 200}
+      type: number
+    - name: confirmed_email
+      admin_ui: {order: 12, width: 200}
+      type: bool
+    - name: signed_up
+      admin_ui: {order: 13, width: 200}
+      type: datetime
+    - name: email_confirmation_key
+      admin_ui: {width: 200}
+      type: string
+    - name: admin
+      admin_ui: {width: 200, order: 15}
+      type: bool
+    - name: subscriptionNewEmailNotification
+      admin_ui: {width: 200, order: 16}
+      type: bool
+    - name: flagNewEmailNotification
+      admin_ui: {width: 200, order: 17}
+      type: bool
+    - name: requestResponseEmailNotification
+      admin_ui: {width: 200, order: 18}
+      type: bool
+    title: users
+  links:
+    client: none
+    server: full
+    columns:
+    - name: socialMediaName
+      admin_ui: {width: 200, order: 0}
+      type: string
+    - name: link
+      admin_ui: {width: 200, order: 1}
+      type: string
+    - name: user
+      admin_ui: {width: 200, order: 2}
+      type: link_single
+      target: users
+    title: links
+  images:
+    client: none
+    server: full
+    columns:
+    - name: imageName
+      admin_ui: {width: 200, order: 0}
+      type: string
+    - name: image
+      admin_ui: {width: 200, order: 1}
+      type: media
+    title: images
+  audios:
+    client: none
+    server: full
+    columns:
+    - name: audioID
+      admin_ui: {width: 200, order: 0}
+      type: string
+    - name: language
+      admin_ui: {order: 2, width: 200}
+      type: string
+    - name: accent
+      admin_ui: {order: 3, width: 200}
+      type: string
+    - name: createdOn
+      admin_ui: {width: 200, order: 5}
+      type: datetime
+    - name: likes
+      admin_ui: {width: 200, order: 6}
+      type: number
+    - name: dislikes
+      admin_ui: {width: 200, order: 7}
+      type: number
+    - name: listens
+      admin_ui: {width: 200, order: 8}
+      type: number
+    - name: audio
+      admin_ui: {width: 200, order: 9}
+      type: media
+    - name: videoUrl
+      admin_ui: {width: 200, order: 10}
+      type: link_single
+      target: videos
+    - name: createdBy
+      admin_ui: {width: 200, order: 11}
+      type: link_single
+      target: users
+    - name: videoTitle
+      admin_ui: {width: 200, order: 12}
+      type: string
+    - name: blocked
+      admin_ui: {width: 200, order: 13}
+      type: bool
+    - name: blockReason
+      admin_ui: {width: 200, order: 14}
+      type: string
+    title: audios
+  videos:
+    client: none
+    server: full
+    columns:
+    - name: videoUrl
+      admin_ui: {order: 0, width: 342}
+      type: string
+    - name: videoTitle
+      admin_ui: {width: 200, order: 1}
+      type: string
+    - name: youTubeVideoID
+      admin_ui: {width: 200, order: 2}
+      type: string
+    - name: accompaniment
+      admin_ui: {width: 200, order: 3}
+      type: media
+    - name: vocal
+      admin_ui: {width: 200, order: 4}
+      type: media
+    title: videos
+  advertisements:
+    client: none
+    server: full
+    columns:
+    - name: advertisementPicture
+      admin_ui: {width: 200, order: 0}
+      type: media
+    - name: link
+      admin_ui: {width: 200, order: 1}
+      type: string
+    - name: appliedOn
+      admin_ui: {width: 200, order: 2}
+      type: datetime
+    - name: appliedBy
+      admin_ui: {width: 200, order: 7}
+      type: link_single
+      target: users
+    - name: status
+      admin_ui: {width: 200, order: 8}
+      type: string
+    - name: mightBeShownOn
+      admin_ui: {order: 10, width: 200}
+      type: date
+    - name: approvedOn
+      admin_ui: {width: 200, order: 11}
+      type: datetime
+    - name: approvedBy
+      admin_ui: {width: 200, order: 12}
+      type: link_single
+      target: users
+    - name: shownOn
+      admin_ui: {order: 13, width: 200}
+      type: date
+    - name: acceptedBy
+      admin_ui: {width: 200, order: 14}
+      type: link_single
+      target: users
+    - name: acceptedOn
+      admin_ui: {width: 200, order: 15}
+      type: datetime
+    - name: statusRead
+      admin_ui: {width: 200, order: 16}
+      type: bool
+    title: advertisements
+  likes:
+    client: none
+    server: full
+    columns:
+    - name: audioRow
+      admin_ui: {order: 3, width: 200}
+      type: link_single
+      target: audios
+    - name: likedBy
+      admin_ui: {width: 200, order: 4}
+      type: link_single
+      target: users
+    - name: likedOn
+      admin_ui: {width: 200, order: 5}
+      type: datetime
+    title: likes
+  requests:
+    client: none
+    server: full
+    columns:
+    - name: requestID
+      admin_ui: {width: 200, order: 0}
+      type: string
+    - name: requestVideoUrl
+      admin_ui: {order: 2, width: 322}
+      type: string
+    - name: requestLanguage
+      admin_ui: {width: 200, order: 3}
+      type: string
+    - name: requestAccent
+      admin_ui: {width: 200, order: 4}
+      type: string
+    - name: requestedBy
+      admin_ui: {width: 200, order: 6}
+      type: link_single
+      target: users
+    - name: requestedOn
+      admin_ui: {width: 200, order: 7}
+      type: datetime
+    - name: videoTitle
+      admin_ui: {width: 200, order: 8}
+      type: string
+    - name: responded
+      admin_ui: {width: 200, order: 9}
+      type: bool
+    - name: checked
+      admin_ui: {width: 200, order: 10}
+      type: bool
+    title: requests
+  topten:
+    client: none
+    server: full
+    columns:
+    - name: creator
+      admin_ui: {width: 200, order: 0}
+      type: link_single
+      target: users
+    - name: place
+      admin_ui: {width: 200, order: 1}
+      type: number
+    - name: listensGained
+      admin_ui: {width: 200, order: 2}
+      type: number
+    - name: subscribersGained
+      admin_ui: {width: 200, order: 3}
+      type: number
+    - name: likesGained
+      admin_ui: {width: 200, order: 4}
+      type: number
+    - name: dubsCreated
+      admin_ui: {width: 200, order: 5}
+      type: number
+    - name: marks
+      admin_ui: {width: 200, order: 6}
+      type: number
+    - name: percentage
+      admin_ui: {width: 200, order: 7}
+      type: number
+    title: topten
+  subscriptions:
+    client: none
+    server: full
+    columns:
+    - name: userID
+      admin_ui: {width: 200, order: 3}
+      type: link_single
+      target: users
+    - name: subscribedBy
+      admin_ui: {width: 200, order: 4}
+      type: link_single
+      target: users
+    - name: subscribedOn
+      admin_ui: {width: 200, order: 5}
+      type: datetime
+    title: subscriptions
+uplink_visible: true
+renamed: true

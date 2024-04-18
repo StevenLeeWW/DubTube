@@ -1,0 +1,144 @@
+container: {type: ColumnPanel}
+components:
+- name: column_panel
+  properties: {role: null}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'EJTMCK,FZSYEM', full_width_row: true}
+  components:
+  - name: column_panel_1
+    properties: {role: elevated-card}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'FODRVZ,GGQINC', full_width_row: true}
+    components:
+    - name: label_ads_title
+      properties: {text: Advertisements, bold: true, role: title}
+      type: Label
+      layout_properties: {grid_position: 'UPRWUQ,QQFBWJ', full_width_row: true}
+    - name: column_panel_availability
+      properties: {role: elevated-card}
+      type: ColumnPanel
+      layout_properties: {grid_position: 'ZGMQPI,ERAIMD', full_width_row: true}
+      components:
+      - name: label_10
+        properties: {text: Slots Availability, align: center, bold: true, role: title}
+        type: Label
+        layout_properties: {grid_position: 'HSNFBR,SEGGFX', full_width_row: true}
+      - name: flow_panel_1
+        properties: {align: center, spacing: small}
+        type: FlowPanel
+        layout_properties: {grid_position: 'FCKXVY,ADODJY', full_width_row: true}
+        components:
+        - name: label_availability
+          properties: {align: right, text: ''}
+          type: Label
+          layout_properties: {}
+        - name: label_1
+          properties: {text: ad-slots available for the next 30 days}
+          type: Label
+          layout_properties: {}
+    - name: spacer_1
+      properties: {height: 32}
+      type: Spacer
+      layout_properties: {grid_position: 'QKDSAG,OXZCWW', full_width_row: true}
+    - name: column_panel_2
+      properties: {role: elevated-card, col_widths: '{}'}
+      type: ColumnPanel
+      layout_properties: {grid_position: 'JHHKHC,CRJWJJ', full_width_row: true}
+      components:
+      - name: label_2
+        properties: {bold: true, text: DubTube PayPal Account, role: title, align: center}
+        type: Label
+        layout_properties: {grid_position: 'MPDIPM,RZIZJH', full_width_row: true}
+      - name: link_DubTube_paypal
+        properties: {spacing_above: medium, align: center, url: 'https://www.paypal.com/donate/?hosted_button_id=ZHM7JT2V9UV2N',
+          text: Link to make payment to DubTube's PayPal}
+        type: Link
+        layout_properties: {grid_position: 'IIHYGK,COKQMN', full_width_row: true}
+        components:
+        - name: image_1
+          properties: {source: _/theme/Paypal_logo.png, height: '60'}
+          type: Image
+          layout_properties: {grid_position: 'YIDUJL,DYOCUS'}
+  - name: spacer_2
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {grid_position: 'PBBKLY,XFTSHJ', full_width_row: true}
+  - name: column_panel_3
+    properties: {role: elevated-card}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'WTZPCC,KVDZRV', full_width_row: true}
+    components:
+    - name: label_3
+      properties: {text: Waiting Ads, bold: true, role: title}
+      type: Label
+      layout_properties: {grid_position: 'XNXOSI,AFVLNL', full_width_row: true}
+    - name: column_panel_no_waiting_ads
+      properties: {role: elevated-card, visible: false}
+      type: ColumnPanel
+      layout_properties: {grid_position: 'MPDHMD,MLCHSJ', full_width_row: true}
+      components:
+      - name: label_no_waiting_ads
+        properties: {align: center, text: No waiting ads.}
+        type: Label
+        layout_properties: {grid_position: 'JUBIUD,NVDXRX', full_width_row: true}
+    - name: repeating_panel_waiting_ads
+      properties: {item_template: AdsInfoBar}
+      type: RepeatingPanel
+      layout_properties: {grid_position: 'FSUPOH,RALUKV', full_width_row: true}
+  - name: spacer_3
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {grid_position: 'BAXCLS,FVCXBW', full_width_row: true}
+  - name: column_panel_4
+    properties: {role: elevated-card}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'DSTYZJ,HQCOHI', full_width_row: true}
+    components:
+    - name: label_4
+      properties: {text: Accepted Ads, bold: true, role: title}
+      type: Label
+      layout_properties: {grid_position: 'VBSPEC,KMXVAZ', full_width_row: true}
+    - name: column_panel_no_accepted_ads
+      properties: {role: elevated-card, visible: false}
+      type: ColumnPanel
+      layout_properties: {grid_position: 'BACFDI,XSDXAJ', full_width_row: true}
+      components:
+      - name: label_5
+        properties: {text: No accepted ads., align: center}
+        type: Label
+        layout_properties: {grid_position: 'TRCAKH,BOTFTA', full_width_row: true}
+    - name: repeating_panel_accepted_ads
+      properties: {item_template: AdsInfoBar}
+      type: RepeatingPanel
+      layout_properties: {grid_position: 'GDHSFK,MKBAHW', full_width_row: true}
+  - name: spacer_4
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {grid_position: 'ERYFZJ,NPBEKZ', full_width_row: true}
+  - name: column_panel_5
+    properties: {role: elevated-card}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'XOBARU,QGFLWW', full_width_row: true}
+    components:
+    - name: label_6
+      properties: {text: Approved Ads, bold: true, role: title}
+      type: Label
+      layout_properties: {grid_position: 'JAOZNP,XSHONL', full_width_row: true}
+    - name: column_panel_no_approved_ads
+      properties: {role: elevated-card, visible: false}
+      type: ColumnPanel
+      layout_properties: {grid_position: 'HVUNVO,EJNHCS', full_width_row: true}
+      components:
+      - name: label_7
+        properties: {align: center, text: No approved ads.}
+        type: Label
+        layout_properties: {grid_position: 'CXAZVL,FSJDJY', full_width_row: true}
+    - name: repeating_panel_approved_ads
+      properties: {item_template: AdsInfoBar}
+      type: RepeatingPanel
+      layout_properties: {grid_position: 'OBTUWH,JBCZWP', full_width_row: true}
+  - name: spacer_5
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {grid_position: 'NLSCYX,IFTFVI', full_width_row: true}
+is_package: true

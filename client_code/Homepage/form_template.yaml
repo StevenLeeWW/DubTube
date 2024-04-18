@@ -1,0 +1,196 @@
+is_package: true
+container:
+  type: HtmlTemplate
+  properties: {html: '@theme:standard-page.html'}
+components:
+- type: ColumnPanel
+  properties: {col_widths: '{}', spacing_above: small}
+  name: content_panel
+  layout_properties: {slot: default}
+  components: []
+- name: column_panel_1
+  properties: {}
+  type: ColumnPanel
+  layout_properties: {slot: left-nav}
+  components:
+  - name: link_home
+    properties: {text: Home, icon: 'fa:home', align: center, tooltip: Go to home page,
+      foreground: '#000000'}
+    type: Link
+    layout_properties: {grid_position: 'PXCVMD,DSQNQO'}
+    event_bindings: {click: link_home_click}
+  - name: spacer_7
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {grid_position: 'FYWALM,TLUDVB'}
+  - name: link_history
+    properties: {text: History, align: center, icon: 'fa:history', foreground: '#000000',
+      tooltip: Your listen-history}
+    type: Link
+    layout_properties: {grid_position: 'CCFCFC,LAXYPG'}
+    event_bindings: {click: link_history_click}
+  - name: spacer_8
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {grid_position: 'PEMKMF,UBYOXY'}
+  - name: link_liked
+    properties: {align: center, text: Liked, icon: 'fa:thumbs-up', tooltip: Dubs you liked,
+      foreground: '#000000'}
+    type: Link
+    layout_properties: {grid_position: 'TVQBMQ,JASIMK'}
+    event_bindings: {click: link_liked_click}
+  - name: spacer_9
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {grid_position: 'VKPEGR,URQDCS'}
+  - name: link_create
+    properties: {text: Create, icon: 'fa:plus-square', align: center, foreground: '#000000',
+      tooltip: Create a new dub!}
+    type: Link
+    layout_properties: {grid_position: 'EOEYGD,BOQAMP'}
+    event_bindings: {click: link_create_click}
+  - name: spacer_10
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {grid_position: 'UMSOAJ,GRFSBF'}
+  - name: link_content
+    properties: {align: center, text: Content, icon: 'fa:folder', tooltip: Dubs you created,
+      foreground: '#000000'}
+    type: Link
+    layout_properties: {grid_position: 'DVSOSL,QKJPCM'}
+    event_bindings: {click: link_content_click}
+  - name: spacer_11
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {grid_position: 'JWSOIO,ULUYIT'}
+  - name: link_flagged
+    properties: {text: Flagged, align: center, icon: 'fa:flag', foreground: '#000000',
+      tooltip: Flags raised and received}
+    type: Link
+    layout_properties: {grid_position: 'PCYPPU,WVWNUX'}
+    event_bindings: {click: link_flagged_click}
+  - name: spacer_1
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {grid_position: 'JEDHOY,KTBSQP'}
+  - name: link_subscribed
+    properties: {text: Subscribed, icon: 'fa:heart', align: center, tooltip: Channels that you subscribed,
+      foreground: '#000000'}
+    type: Link
+    layout_properties: {grid_position: 'VJOYVY,SKKCFD'}
+    event_bindings: {click: link_subscribed_click}
+  - name: spacer_3
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {grid_position: 'WXIUZM,ALQWVQ'}
+  - name: link_admin
+    properties: {icon: 'fa:key', text: Admin, align: center, visible: false, foreground: '#000000',
+      tooltip: Extra functions for admins}
+    type: Link
+    layout_properties: {grid_position: 'PWRZRH,JGJAFL'}
+    event_bindings: {click: link_admin_click}
+- name: column_panel_search
+  properties: {wrap_on: never}
+  type: ColumnPanel
+  layout_properties: {slot: nav-right}
+  components:
+  - name: column_panel_3
+    properties: {col_widths: '{"GLEBLN":50,"FPHMCA":10}', wrap_on: never}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'CKRWUX,NMOPUU', full_width_row: true}
+    components:
+    - name: column_panel_2
+      properties: {col_widths: '{"TCOUTQ":5}', wrap_on: mobile}
+      type: ColumnPanel
+      layout_properties: {grid_position: 'LKDBMI,GLEBLN', full_width_row: true}
+      components:
+      - name: flow_panel_4
+        properties: {align: center}
+        type: FlowPanel
+        components:
+        - name: custom_app_bar_link_div_title
+          properties: {width: ''}
+          type: form:CustomAppBarLinkDiv
+          components:
+          - name: link_DubTube
+            properties: {col_widths: '{"IRQKAB":25,"YAQCNT":35}', align: center, wrap_on: never,
+              tooltip: Go to home page}
+            type: Link
+            components:
+            - name: image_logo
+              properties: {height: '45', source: _/theme/dubtubeLogo.png}
+              type: Image
+              layout_properties: {grid_position: 'WKFKNV,IRQKAB'}
+            - name: label_DubTube
+              properties: {text: DubTube, bold: true, align: center}
+              type: Label
+              layout_properties: {grid_position: 'WKFKNV,YAQCNT'}
+            layout_properties: {slot: normal-slot}
+            event_bindings: {click: link_DubTube_click}
+        layout_properties: {grid_position: 'ZQUFPX,TCOUTQ', full_width_row: true}
+      - name: flow_panel_3
+        properties: {align: center, vertical_align: middle, spacing: none}
+        type: FlowPanel
+        layout_properties: {grid_position: 'ZQUFPX,VSWLVP'}
+        components:
+        - name: spacer_2
+          properties: {height: 32}
+          type: Spacer
+        - name: custom_app_bar_div_1
+          properties: {}
+          type: form:CustomAppBarDiv
+          layout_properties: {expand: true}
+          components:
+          - name: flow_panel_2
+            properties: {background: '#e7e0ec', vertical_align: full, align: center}
+            type: FlowPanel
+            components:
+            - name: text_box_search
+              properties: {placeholder: Search with video's URL or title, foreground: '#000000',
+                spacing_below: none, role: null, spacing_above: small, align: center}
+              type: TextBox
+              layout_properties: {expand: true}
+              event_bindings: {pressed_enter: text_box_search_pressed_enter}
+            layout_properties: {slot: normal-slot}
+        - name: button_search
+          properties: {text: '', role: filled-button, spacing_above: small, spacing_below: small,
+            icon: 'fa:search', tooltip: Search}
+          type: Button
+          event_bindings: {click: button_search_click}
+          layout_properties: {}
+    - name: flow_panel_1
+      properties: {align: center, vertical_align: full, visible: true, spacing: small}
+      type: FlowPanel
+      components:
+      - name: column_panel_profilePic
+        properties: {spacing_below: small, visible: false}
+        type: ColumnPanel
+        components:
+        - name: custom_app_bar_link_div
+          properties: {visible: true}
+          type: form:CustomAppBarLinkDiv
+          components:
+          - name: link_profilePicture
+            properties: {visible: true, align: center, tooltip: 'Profile, logout,
+                delete account'}
+            type: Link
+            layout_properties: {slot: normal-slot}
+            components:
+            - name: channel_picture
+              properties: {}
+              type: form:ChannelPicture
+              layout_properties: {grid_position: 'QQTOGB,YYEATA'}
+            event_bindings: {click: link_profilePicture_click}
+          layout_properties: {grid_position: 'UILLMJ,UHNTAN'}
+        layout_properties: {}
+      - name: column_panel_signIn
+        properties: {}
+        type: ColumnPanel
+        components:
+        - name: button_signIn
+          properties: {text: '', icon: 'fa:user-circle', role: tonal-button, tooltip: Sign In}
+          type: Button
+          event_bindings: {click: button_signIn_click}
+          layout_properties: {grid_position: 'YUMORV,LGJSDI'}
+        layout_properties: {width: null}
+      layout_properties: {grid_position: 'LKDBMI,FPHMCA'}

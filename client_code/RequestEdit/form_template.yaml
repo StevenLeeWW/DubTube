@@ -1,0 +1,140 @@
+properties:
+- {name: videourl, type: string, default_value: '', important: true, default_binding_prop: true}
+is_package: true
+toolbox_item: {hidden: true}
+custom_component: true
+components:
+- name: label_requestTitle
+  properties: {bold: true, role: title, text: Create new dub request}
+  type: Label
+  layout_properties: {grid_position: 'SSTCAJ,VTHJCU'}
+- name: column_panel_4
+  properties: {col_widths: '{"JYGIFJ":15,"SFDPCE":45}', col_spacing: small}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'LLNCKM,GVAPCZ'}
+  components:
+  - name: label_youTube_video_url
+    properties: {text: 'YouTube video URL: ', spacing_above: medium}
+    type: Label
+    layout_properties: {grid_position: 'RYZPCZ,JYGIFJ'}
+  - name: flow_panel_2
+    properties: {align: center}
+    type: FlowPanel
+    components:
+    - name: text_box_videoUrl
+      properties: {placeholder: Paste the URL of the target YouTube video}
+      type: TextBox
+      layout_properties: {expand: true}
+      event_bindings: {pressed_enter: text_box_videoUrl_pressed_enter}
+    - name: button_search
+      properties: {text: Search, role: filled-button}
+      type: Button
+      event_bindings: {click: button_search_click}
+    layout_properties: {grid_position: 'RYZPCZ,SFDPCE'}
+- name: spacer_1
+  properties: {height: 32}
+  type: Spacer
+  layout_properties: {grid_position: 'FXJBLF,EKKLET'}
+- name: column_panel_invalid_url
+  properties: {role: elevated-card, visible: false}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'KTQEBM,JZXBTS'}
+  components:
+  - name: label_invalid_url
+    properties: {text: Invalid YouTube video URL, align: center}
+    type: Label
+    layout_properties: {grid_position: 'IIDUFI,MTYPLK'}
+- name: column_panel_YTvideo
+  properties: {role: elevated-card, visible: false}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'WFCNHY,TVHMFV'}
+  components:
+  - name: flow_panel_4
+    properties: {align: left}
+    type: FlowPanel
+    layout_properties: {grid_position: 'WECNHT,KEIZZE'}
+    components:
+    - name: youtube_video
+      properties: {height: '180', mute: true}
+      type: YouTubeVideo
+      layout_properties: {width: 320}
+    - name: flow_panel_3
+      properties: {align: left}
+      type: FlowPanel
+      layout_properties: {expand: true}
+      components:
+      - name: column_panel_1
+        properties: {}
+        type: ColumnPanel
+        layout_properties: {expand: true}
+        components:
+        - name: column_panel_5
+          properties: {}
+          type: ColumnPanel
+          layout_properties: {grid_position: 'PCRTGE,TVKSCI'}
+          components:
+          - name: label_confirmation
+            properties: {text: 'This YouTube video?', align: center}
+            type: Label
+            layout_properties: {grid_position: 'PVLJHI,YKLGSE'}
+        - name: flow_panel_5
+          properties: {align: center}
+          type: FlowPanel
+          layout_properties: {grid_position: 'PCRTGE,RCBUJD'}
+          components:
+          - name: button_yes
+            properties: {text: 'Yes', role: filled-button}
+            type: Button
+            event_bindings: {click: button_yes_click}
+          - name: button_no
+            properties: {text: 'No', role: filled-button}
+            type: Button
+            layout_properties: {}
+            event_bindings: {click: button_no_click}
+        - name: column_panel_language_accent
+          properties: {visible: false}
+          type: ColumnPanel
+          layout_properties: {grid_position: 'HLZDXH,NJHNES'}
+          components:
+          - name: column_panel_3
+            properties: {col_widths: '{"NHDZPD":15,"OQJYIT":45}'}
+            type: ColumnPanel
+            layout_properties: {grid_position: 'BWXVAU,GIPQXF'}
+            components:
+            - name: label_language
+              properties: {text: 'Target Language: '}
+              type: Label
+              layout_properties: {grid_position: 'GSAOFE,NHDZPD'}
+            - name: drop_down_language
+              properties: {placeholder: Requested language}
+              type: DropDown
+              layout_properties: {grid_position: 'GSAOFE,OQJYIT'}
+              event_bindings: {change: drop_down_language_change}
+          - name: column_panel_6
+            properties: {col_widths: '{"HIDFCO":15,"GJMUKJ":45}'}
+            type: ColumnPanel
+            layout_properties: {grid_position: 'JAPGNO,BDKAQX'}
+            components:
+            - name: label_accent
+              properties: {text: 'Target Accent: '}
+              type: Label
+              layout_properties: {grid_position: 'PGMFFI,HIDFCO'}
+            - name: drop_down_accent
+              properties: {placeholder: Requested accent}
+              type: DropDown
+              layout_properties: {grid_position: 'PGMFFI,GJMUKJ'}
+- name: spacer_2
+  properties: {height: 32}
+  type: Spacer
+  layout_properties: {grid_position: 'ODRJXB,OAKMLS'}
+- name: column_panel_2
+  properties: {}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'YCKZSO,VKSDZA'}
+  components:
+  - name: button_request
+    properties: {text: Request, role: filled-button, enabled: false, visible: false}
+    type: Button
+    layout_properties: {grid_position: 'UHRLRR,QHADYM'}
+    event_bindings: {click: button_request_click}
+container: {type: ColumnPanel}

@@ -1,0 +1,76 @@
+properties:
+- {name: mode, type: string, default_value: '', important: true, default_binding_prop: true}
+- {name: socialmedianame, type: string, default_value: '', important: true}
+- {name: link, type: string, default_value: '', important: true}
+is_package: true
+toolbox_item: {hidden: true}
+custom_component: true
+components:
+- name: column_panel_1
+  properties: {}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'DLTQDR,MSODME'}
+  components:
+  - name: label_panelTitle
+    properties: {bold: true, role: title}
+    type: Label
+    layout_properties: {grid_position: 'YRRRDU,FTAJPF'}
+- name: flow_panel_1
+  properties: {}
+  type: FlowPanel
+  layout_properties: {grid_position: 'VXLSRV,CBPBFE'}
+  components:
+  - name: label_platform
+    properties: {text: 'Platform: '}
+    type: Label
+    layout_properties: {}
+  - name: spacer_1
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {expand: false, width: 100}
+  - name: drop_down_platform
+    properties:
+      items: ['']
+      placeholder: ''
+      include_placeholder: false
+    type: DropDown
+    layout_properties: {width: null, expand: true}
+    data_bindings:
+    - {property: selected_value, code: 'self.item[''socialMediaName'']', writeback: false}
+- name: flow_panel_2
+  properties: {}
+  type: FlowPanel
+  layout_properties: {grid_position: 'ILOSWT,FVMJAG'}
+  components:
+  - name: label_link
+    properties: {text: 'Link:        '}
+    type: Label
+    layout_properties: {}
+  - name: spacer_2
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {expand: false, width: 100}
+  - name: text_box_link
+    properties: {}
+    type: TextBox
+    layout_properties: {width: null, expand: true}
+- name: column_panel_validation
+  properties: {visible: false}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'WGCHEL,GZFBNZ'}
+  components:
+  - name: label_validation
+    properties: {foreground: '#D70040'}
+    type: Label
+    layout_properties: {grid_position: 'LVXHBQ,KQKXKG'}
+- name: column_panel_2
+  properties: {}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'HGTFBP,JZBRAK'}
+  components:
+  - name: button_save
+    properties: {text: Save, role: filled-button}
+    type: Button
+    layout_properties: {grid_position: 'LRJIVY,DOMTPZ'}
+    event_bindings: {click: button_save_click}
+container: {type: ColumnPanel}

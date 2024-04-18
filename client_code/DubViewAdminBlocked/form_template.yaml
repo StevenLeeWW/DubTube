@@ -1,0 +1,174 @@
+container: {type: ColumnPanel}
+components:
+- name: column_panel_4
+  properties: {}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'UWRWLN,EKLJYK'}
+  components:
+  - name: column_panel_1
+    properties: {role: elevated-card}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'VFMLUD,ERAPCM'}
+    components:
+    - name: link_video
+      properties: {}
+      type: Link
+      layout_properties: {grid_position: 'EKZMWX,ACTVPT'}
+      components:
+      - name: label_title
+        properties: {role: title, bold: true, font_size: 16}
+        type: Label
+        layout_properties: {grid_position: 'FUYQVO,AXOJDG'}
+        data_bindings:
+        - {property: text, code: 'self.item[''videoTitle'']', writeback: false}
+      event_bindings: {click: link_video_click}
+    - name: flow_panel_1
+      properties: {}
+      type: FlowPanel
+      layout_properties: {grid_position: 'WUDFRY,TKDUQQ'}
+      components:
+      - name: column_panel_3
+        properties: {}
+        type: ColumnPanel
+        layout_properties: {width: 320}
+        components:
+        - name: youtube_video
+          properties: {height: '180', youtube_id: tdDyv8_0-z4, mute: true}
+          type: YouTubeVideo
+          layout_properties: {grid_position: 'NTXGYC,ZVUHVX'}
+          data_bindings:
+          - {property: youtube_id, code: 'self.item[''videoUrl''][''youTubeVideoID'']',
+            writeback: false}
+      - name: column_panel_2
+        properties: {}
+        type: ColumnPanel
+        layout_properties: {width: 532, expand: true}
+        components:
+        - name: column_panel_6
+          properties: {col_widths: '{"SYJREZ":15,"LURTIY":20,"FBYERX":25}'}
+          type: ColumnPanel
+          layout_properties: {grid_position: 'LIDDKZ,FCQQFF'}
+          components:
+          - name: link_channel
+            properties: {col_widths: '{"VDXQWK":30}', align: center, spacing_above: none,
+              tooltip: Visit this channel's page}
+            type: Link
+            components:
+            - name: flow_panel_16
+              properties: {align: center, vertical_align: middle, spacing: medium}
+              type: FlowPanel
+              layout_properties: {grid_position: 'QBNHOS,VDXQWK'}
+              components:
+              - name: channel_picture
+                properties: {}
+                type: form:ChannelPicture
+                data_bindings:
+                - {property: source, code: 'self.item[''createdBy''][''profilePicture'']',
+                  writeback: false}
+              - name: label_channel
+                properties: {bold: false}
+                type: Label
+                data_bindings:
+                - {property: text, code: 'self.item[''createdBy''][''profileName'']',
+                  writeback: false}
+                layout_properties: {}
+            event_bindings: {click: link_channel_click}
+            layout_properties: {grid_position: 'LXYIOD,SYJREZ'}
+          - name: label_date
+            properties: {bold: false, align: center, spacing_above: medium}
+            type: Label
+            data_bindings:
+            - {property: text, code: '''Posted on: '' + str(self.item[''createdOn''].date())',
+              writeback: false}
+            layout_properties: {grid_position: 'LXYIOD,LURTIY'}
+          - name: flow_panel_6
+            properties: {align: center}
+            type: FlowPanel
+            layout_properties: {grid_position: 'LXYIOD,FBYERX'}
+            components:
+            - name: button_play
+              properties: {text: Play in sync, role: elevated-button}
+              type: Button
+              event_bindings: {click: button_play_click}
+            - name: button_block
+              properties: {text: '', role: tonal-button, icon: 'fa:ban', tooltip: Unblocked this dub}
+              type: Button
+              event_bindings: {click: button_block_click}
+              layout_properties: {}
+        - name: column_panel_5
+          properties: {}
+          type: ColumnPanel
+          layout_properties: {grid_position: 'MYTDXS,BXSRUY'}
+          components:
+          - name: flow_panel_5
+            properties: {align: justify}
+            type: FlowPanel
+            layout_properties: {grid_position: 'YDHPVK,IHWRZR'}
+            components:
+            - name: flow_panel_3
+              properties: {align: center}
+              type: FlowPanel
+              components:
+              - name: label_language
+                properties: {}
+                type: Label
+                data_bindings:
+                - {property: text, code: 'self.item[''language'']', writeback: false}
+              layout_properties: {width: 120}
+            - name: flow_panel_4
+              properties: {align: center}
+              type: FlowPanel
+              components:
+              - name: label_accent
+                properties: {bold: false}
+                type: Label
+                data_bindings:
+                - {property: text, code: 'self.item[''accent'']', writeback: false}
+                layout_properties: {}
+              layout_properties: {width: 120}
+          - name: flow_panel_2
+            properties: {align: justify}
+            type: FlowPanel
+            layout_properties: {grid_position: 'YDHPVK,QMDJOC'}
+            components:
+            - name: flow_panel_9
+              properties: {align: center}
+              type: FlowPanel
+              components:
+              - name: label_listens
+                properties: {bold: false}
+                type: Label
+                data_bindings:
+                - {property: text, code: 'str(self.item[''listens'']) + " listens"',
+                  writeback: false}
+                layout_properties: {}
+              layout_properties: {width: 120}
+            - name: flow_panel_11
+              properties: {align: center}
+              type: FlowPanel
+              components:
+              - name: label_likes
+                properties: {bold: false}
+                type: Label
+                data_bindings:
+                - {property: text, code: 'str(self.item[''likes''])+" likes"', writeback: false}
+                layout_properties: {}
+              layout_properties: {width: 120}
+        - name: flow_panel_audioPlayer
+          properties: {}
+          type: FlowPanel
+          layout_properties: {grid_position: 'VATLGF,SMWXZS'}
+          components:
+          - name: audio_player
+            properties: {}
+            type: form:AudioPlayer
+            layout_properties: {expand: true}
+            data_bindings:
+            - {property: source, code: 'self.item[''audio'']', writeback: false}
+            - {property: src, code: 'self.item[''audio'']', writeback: false}
+            - {property: audioid, code: 'self.item[''audioID'']', writeback: false}
+            event_bindings: {}
+          data_bindings:
+          - {property: tag, code: '''dubView''', writeback: false}
+is_package: true
+custom_component: false

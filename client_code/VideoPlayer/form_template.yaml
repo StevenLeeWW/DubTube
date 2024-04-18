@@ -1,0 +1,103 @@
+properties:
+- {name: videourl, type: string, default_value: '', important: true, default_binding_prop: true}
+- {name: audio, type: uri, important: true, accept: audio/*}
+- {name: audioid, type: string, default_value: '', important: true}
+is_package: true
+events:
+- name: audiochange
+  default_event: true
+  parameters:
+  - {name: audio}
+  description: When its audio is changed
+toolbox_item: {hidden: true}
+custom_component: true
+components:
+- name: column_panel
+  properties: {}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'FJXKFU,RMRNRY'}
+  components:
+  - name: column_panel_video
+    properties: {}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'HPKYOE,PJORYE'}
+    components:
+    - name: youtube_video
+      properties: {height: '545', mute: true}
+      type: YouTubeVideo
+      layout_properties: {grid_position: 'OCOOGU,OYVOWB', full_width_row: true}
+      data_bindings: []
+      event_bindings: {state_change: youtube_video_state_change}
+  - name: flow_panel_subtitle
+    properties: {align: center, visible: false, background: ''}
+    type: FlowPanel
+    layout_properties: {grid_position: 'APYTDH,QCPJCO'}
+    components:
+    - name: label_subtitle
+      properties: {align: center}
+      type: Label
+      layout_properties: {expand: false}
+  - name: timer
+    properties: {interval: 0.5}
+    type: Timer
+    layout_properties: {grid_position: 'PDYVUW,GNAMVF'}
+    event_bindings: {tick: timer_tick}
+  - name: spacer_subtitle
+    properties: {height: 32, visible: false}
+    type: Spacer
+    layout_properties: {grid_position: 'XDOVSV,PCHFGW'}
+  - name: label_videoTitle
+    properties: {bold: true, role: title}
+    type: Label
+    layout_properties: {grid_position: 'FHOVPB,MFGLGI'}
+  - name: column_panel_1
+    properties: {col_widths: '{"DWAPOI":45,"TTSEIK":15}'}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'WBXCLU,QFEECY'}
+    components:
+    - name: flow_panel_1
+      properties: {vertical_align: middle, spacing_above: small, align: center}
+      type: FlowPanel
+      layout_properties: {grid_position: 'KUUXUW,DWAPOI'}
+      components:
+      - name: drop_down_language
+        properties: {}
+        type: DropDown
+        layout_properties: {expand: true}
+        event_bindings: {change: drop_down_language_change}
+      - name: drop_down_accent
+        properties: {}
+        type: DropDown
+        layout_properties: {expand: true}
+        event_bindings: {change: drop_down_accent_change}
+    - name: button_request
+      properties: {text: Request for dub, role: filled-button, spacing_above: medium}
+      type: Button
+      layout_properties: {grid_position: 'KUUXUW,TTSEIK'}
+      event_bindings: {click: button_request_click}
+  - name: spacer_4
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {grid_position: 'SFCMLZ,MOSTJA'}
+  - name: column_panel_audioPlayer
+    properties: {}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'SZWNSQ,BRRGTW'}
+    components:
+    - name: audio_player
+      properties: {}
+      type: form:AudioPlayerVideoPlayerPage
+      layout_properties: {grid_position: 'MVKXUB,EYKEWY'}
+      data_bindings:
+      - {property: source, code: self._audio, writeback: false}
+    data_bindings:
+    - {property: tag, code: '''videoPlayer''', writeback: false}
+  - name: spacer_5
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {grid_position: 'KNYVCB,KUVXKT'}
+  - name: repeating_panel
+    properties: {item_template: DubInfoBar}
+    type: RepeatingPanel
+    layout_properties: {grid_position: 'KIPAGR,ENCWVD'}
+container: {type: ColumnPanel}

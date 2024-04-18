@@ -1,0 +1,39 @@
+container: {type: ColumnPanel}
+components:
+- name: column_panel
+  properties: {}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'TXAUTU,PXJBYG', full_width_row: true}
+  components:
+  - name: label_title
+    properties: {text: Set your profile name, bold: true, role: title}
+    type: Label
+    layout_properties: {grid_position: 'XXIPLJ,YYXVJH', full_width_row: true}
+  - name: text_box_profileName
+    properties: {placeholder: Profile name}
+    type: TextBox
+    layout_properties: {grid_position: 'TQXERK,MLLXZO', full_width_row: true}
+  - name: spacer_1
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {grid_position: 'OLBZQY,QZCNDR', full_width_row: true}
+  - name: column_panel_validation
+    properties: {visible: false}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'ILHQCF,SCGWIP', full_width_row: true}
+    components:
+    - name: label_validationMessage
+      properties: {foreground: '#D70040'}
+      type: Label
+      layout_properties: {grid_position: 'ADQLGW,CWCGLD', full_width_row: true}
+  - name: flow_panel_1
+    properties: {align: center}
+    type: FlowPanel
+    layout_properties: {grid_position: 'HRZGHV,YECKUL', full_width_row: true}
+    components:
+    - name: button_save
+      properties: {text: Save, role: filled-button}
+      type: Button
+      layout_properties: {}
+      event_bindings: {click: button_save_click}
+is_package: true

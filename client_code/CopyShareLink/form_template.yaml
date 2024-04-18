@@ -1,0 +1,23 @@
+container: {type: ColumnPanel}
+components:
+- name: column_panel
+  properties: {}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'TXAUTU,PXJBYG', full_width_row: true}
+  components:
+  - name: label_title
+    properties: {text: Link to this dub, bold: true, role: title}
+    type: Label
+    layout_properties: {grid_position: 'XXIPLJ,YYXVJH', full_width_row: true}
+  - name: text_box_link
+    properties: {placeholder: '', enabled: true, align: center}
+    type: TextBox
+    layout_properties: {grid_position: 'HTCHOR,SUPHOQ', full_width_row: true}
+    data_bindings:
+    - {property: text, code: 'self.item[''link'']', writeback: false}
+  - name: button_copy
+    properties: {text: Copy to clipboard, role: filled-button, icon: 'fa:copy', tooltip: Copy link to clipboard}
+    type: Button
+    layout_properties: {grid_position: 'LUXEMW,SXVYDG', full_width_row: true}
+    event_bindings: {click: button_copy_click}
+is_package: true

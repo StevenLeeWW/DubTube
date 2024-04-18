@@ -1,0 +1,48 @@
+is_package: true
+container:
+  type: DataRowPanel
+  properties: {align: center}
+components:
+- name: link_channel
+  properties: {align: center}
+  type: Link
+  layout_properties: {column: JKSDUP}
+  data_bindings:
+  - {property: text, code: 'self.item[''creator''][''profileName'']', writeback: false}
+  event_bindings: {click: link_channel_click}
+- name: label_dub_created
+  properties: {align: center}
+  type: Label
+  layout_properties: {column: VJQQOR}
+  data_bindings:
+  - {property: text, code: 'self.item[''dubsCreated'']', writeback: false}
+- name: label_subscribers_gained
+  properties: {align: center}
+  type: Label
+  layout_properties: {column: OJLQEN}
+  data_bindings:
+  - {property: text, code: 'self.item[''subscribersGained'']', writeback: false}
+- name: label_likes_gained
+  properties: {align: center}
+  type: Label
+  layout_properties: {column: DWXTJD}
+  data_bindings:
+  - {property: text, code: 'self.item[''likesGained'']', writeback: false}
+- name: label_listens_gained
+  properties: {align: center}
+  type: Label
+  layout_properties: {column: ELQUYJ}
+  data_bindings:
+  - {property: text, code: 'self.item[''listensGained'']', writeback: false}
+- name: label_marks
+  properties: {align: center}
+  type: Label
+  layout_properties: {column: TKLQIY}
+  data_bindings:
+  - {property: text, code: 'self.item[''marks'']', writeback: false}
+- name: label_percentage
+  properties: {align: center}
+  type: Label
+  layout_properties: {column: TPRYVH}
+  data_bindings:
+  - {property: text, code: 'self.item[''percentage'']', writeback: false}

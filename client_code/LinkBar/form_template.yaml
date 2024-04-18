@@ -1,0 +1,35 @@
+container: {type: ColumnPanel}
+components:
+- name: column_panel
+  properties: {col_widths: '{"PBBKTH":10,"ZXAJRZ":10,"GINHRH":40}'}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'BVKGCU,BBEMKU', full_width_row: true}
+  components:
+  - name: image_logo
+    properties: {height: '60', display_mode: shrink_to_fit}
+    type: Image
+    layout_properties: {grid_position: 'IFSRJO,PBBKTH', full_width_row: true}
+  - name: link
+    properties: {align: center, spacing_above: large, spacing_below: small}
+    type: Link
+    layout_properties: {grid_position: 'IFSRJO,GINHRH'}
+    data_bindings:
+    - {property: text, code: 'self.item[''link'']', writeback: false}
+    - {property: url, code: 'self.item[''link'']', writeback: false}
+    event_bindings: {}
+  - name: flow_panel
+    properties: {vertical_align: middle, align: center, spacing: small}
+    type: FlowPanel
+    layout_properties: {grid_position: 'IFSRJO,ZXAJRZ'}
+    components:
+    - name: button_edit
+      properties: {text: '', role: elevated-button, icon: 'fa:pencil'}
+      type: Button
+      layout_properties: {}
+      event_bindings: {click: button_edit_click}
+    - name: button_delete
+      properties: {text: '', role: filled-button, icon: 'fa:trash', background: '#FFAC1C'}
+      type: Button
+      layout_properties: {}
+      event_bindings: {click: button_delete_click}
+is_package: true

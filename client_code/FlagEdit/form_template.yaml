@@ -1,0 +1,74 @@
+properties:
+- {name: flagreason, type: string, default_value: '', important: true, default_binding_prop: true}
+- {name: flagdetails, type: string, default_value: '', important: true}
+- {name: mode, type: string, default_value: '', important: true}
+is_package: true
+toolbox_item: {hidden: true}
+custom_component: true
+components:
+- name: column_panel
+  properties: {}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'GYGFGH,MIZPDR', full_width_row: true}
+  components:
+  - name: label_title
+    properties: {bold: true, role: title}
+    type: Label
+    layout_properties: {grid_position: 'WZQRSW,GSFHXQ', full_width_row: true}
+  - name: flow_panel_1
+    properties: {}
+    type: FlowPanel
+    layout_properties: {grid_position: 'OGHGCF,PYLUHU', full_width_row: true}
+    components:
+    - name: flow_panel_3
+      properties: {}
+      type: FlowPanel
+      components:
+      - name: label_flagReason
+        properties: {text: 'Reason of flagging this dub: '}
+        type: Label
+      layout_properties: {width: 250}
+    - name: spacer_1
+      properties: {height: 32}
+      type: Spacer
+      layout_properties: {expand: true}
+    - name: drop_down_reason
+      properties: {}
+      type: DropDown
+      layout_properties: {expand: false, width: 499}
+  - name: flow_panel_2
+    properties: {}
+    type: FlowPanel
+    layout_properties: {grid_position: 'GHOXTB,ALVIBI', full_width_row: true}
+    components:
+    - name: flow_panel_4
+      properties: {}
+      type: FlowPanel
+      components:
+      - name: label_flagDetails
+        properties: {text: 'Details (max 200 characters) (optional):'}
+        type: Label
+        layout_properties: {}
+      layout_properties: {width: 250}
+    - name: spacer_2
+      properties: {height: 32}
+      type: Spacer
+      layout_properties: {expand: true}
+    - name: text_area_details
+      properties: {height: '120'}
+      type: TextArea
+      layout_properties: {width: 500}
+  - name: spacer_3
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {grid_position: 'UTHWBM,FGKLUC', full_width_row: true}
+  - name: flow_panel_5
+    properties: {align: center}
+    type: FlowPanel
+    layout_properties: {grid_position: 'GBIIXO,BKXRDA', full_width_row: true}
+    components:
+    - name: button_save
+      properties: {text: Save, role: filled-button}
+      type: Button
+      event_bindings: {click: button_save_click}
+container: {type: ColumnPanel}

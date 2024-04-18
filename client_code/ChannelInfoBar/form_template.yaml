@@ -1,0 +1,110 @@
+container: {type: ColumnPanel}
+components:
+- name: column_panel
+  properties: {role: elevated-card, border: ''}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'REVMQG,KHRNSV', full_width_row: true}
+  components:
+  - name: column_panel_1
+    properties: {col_widths: '{"IHYONW":15,"VSFZQV":15,"VWXLUJ":10,"GSFYNM":15,"ZCRUCL":8}',
+      col_spacing: small}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'RLMTIL,NVCFZJ', full_width_row: true}
+    components:
+    - name: flow_panel_channel
+      properties: {vertical_align: middle, align: center}
+      type: FlowPanel
+      components:
+      - name: link_channel
+        properties: {}
+        type: Link
+        components:
+        - name: channel_picture
+          properties: {height: '80', width: '80'}
+          type: form:ChannelPicture
+          layout_properties: {grid_position: 'EOSXGS,INOKOE'}
+          data_bindings:
+          - {property: source, code: 'self.item[''userID''][''profilePicture'']',
+            writeback: false}
+        event_bindings: {click: link_channel_click}
+      - name: link_channel2
+        properties: {tooltip: Visit the channel page}
+        type: Link
+        components:
+        - name: label_channelName
+          properties: {}
+          type: Label
+          layout_properties: {grid_position: 'PIHYKS,IMAGLD', full_width_row: false}
+          data_bindings:
+          - {property: text, code: 'self.item[''userID''][''profileName'']', writeback: false}
+        event_bindings: {click: link_channel2_click}
+        layout_properties: {}
+      layout_properties: {grid_position: 'DYIUHT,IHYONW', full_width_row: true}
+    - name: flow_panel_1
+      properties: {align: center, spacing_above: large, spacing: none}
+      type: FlowPanel
+      layout_properties: {grid_position: 'DYIUHT,VWXLUJ'}
+      components:
+      - name: flow_panel_subscribers
+        properties: {align: center, spacing_above: medium}
+        type: FlowPanel
+        components:
+        - name: label_subscribers
+          properties: {}
+          type: Label
+          data_bindings:
+          - {property: text, code: 'str(self.item[''userID''][''subscribers'']) +
+              '' subscribers''', writeback: false}
+        layout_properties: {}
+    - name: flow_panel_2
+      properties: {align: center, spacing_above: large, spacing: medium}
+      type: FlowPanel
+      components:
+      - name: flow_panel_dubs
+        properties: {align: center, spacing_above: medium}
+        type: FlowPanel
+        layout_properties: {width: null}
+        components:
+        - name: label_dubs
+          properties: {}
+          type: Label
+          data_bindings:
+          - {property: text, code: 'str(self.item[''userID''][''dubs'']) + '' dubs''',
+            writeback: false}
+      - name: flow_panel_new
+        properties: {align: center, spacing_above: medium}
+        type: FlowPanel
+        components:
+        - name: label_new
+          properties: {text: New!, foreground: '#ff6700', bold: true, visible: false}
+          type: Label
+          layout_properties: {}
+        layout_properties: {}
+      layout_properties: {grid_position: 'DYIUHT,VSFZQV'}
+    - name: flow_panel_3
+      properties: {align: center, spacing_above: large, spacing: medium}
+      type: FlowPanel
+      layout_properties: {grid_position: 'DYIUHT,GSFYNM'}
+      components:
+      - name: flow_panel_date
+        properties: {align: center, spacing_above: medium}
+        type: FlowPanel
+        components:
+        - name: label_subscribedOn
+          properties: {}
+          type: Label
+          data_bindings:
+          - {property: text, code: '''Subscribed on: '' + str(self.item[''subscribedOn''].date())',
+            writeback: false}
+    - name: flow_panel_4
+      properties: {align: center, spacing_above: large, spacing: medium}
+      type: FlowPanel
+      layout_properties: {grid_position: 'DYIUHT,ZCRUCL'}
+      components:
+      - name: button_unsubscribe
+        properties: {text: Unsubscribe, role: filled-button, spacing_above: medium,
+          font_size: 12, tooltip: Unsubscribe to the channel}
+        type: Button
+        layout_properties: {}
+        event_bindings: {click: button_unsubscribe_click}
+is_package: true

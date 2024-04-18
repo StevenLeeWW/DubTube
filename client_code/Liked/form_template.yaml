@@ -1,0 +1,105 @@
+container: {type: ColumnPanel}
+components:
+- name: column_panel_filter
+  properties: {}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'VMGLIR,JKRLPL'}
+  components:
+  - name: label_liked
+    properties: {text: Liked, role: title, bold: true}
+    type: Label
+    layout_properties: {grid_position: 'CQDNAP,ALMCZD'}
+  - name: column_panel_1
+    properties: {col_widths: '{"LJKIMP":25,"XKTULI":45}', col_spacing: small}
+    type: ColumnPanel
+    components:
+    - name: text_box_searchLiked
+      properties: {placeholder: Search with video's title or URL, spacing_above: medium}
+      type: TextBox
+      layout_properties: {grid_position: 'ZLANUR,XKTULI'}
+      event_bindings: {pressed_enter: text_box_searchLiked_pressed_enter}
+    - name: flow_panel_3
+      properties: {align: center, spacing: small}
+      type: FlowPanel
+      layout_properties: {grid_position: 'ZLANUR,LJKIMP'}
+      components:
+      - name: button_searchLiked
+        properties: {text: Search, role: filled-button}
+        type: Button
+        event_bindings: {click: button_searchLiked_click}
+      - name: button_showAll
+        properties: {text: Show All, role: tonal-button}
+        type: Button
+        event_bindings: {click: button_showAll_click}
+      - name: button_clearLiked
+        properties: {text: Clear, role: filled-button, background: '#D2042D', icon: 'fa:trash',
+          spacing_above: small}
+        type: Button
+        layout_properties: {}
+        event_bindings: {click: button_clearLiked_click}
+    layout_properties: {grid_position: 'DAORVK,URWGWL'}
+  - name: label_filter
+    properties: {text: 'Filter all liked dubs by:'}
+    type: Label
+    layout_properties: {grid_position: 'WMIDYO,WXEGMU'}
+  - name: column_panel_3
+    properties: {}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'ZVICOI,RHJVRK'}
+    components:
+    - name: column_panel_2
+      properties: {col_widths: '{"MQKGKS":5,"JXMZRR":25,"TYKVDY":50}'}
+      type: ColumnPanel
+      components:
+      - name: flow_panel_2
+        properties: {vertical_align: middle}
+        type: FlowPanel
+        layout_properties: {grid_position: 'IRCFIC,TYKVDY'}
+        components:
+        - name: drop_down_language
+          properties: {}
+          type: DropDown
+          layout_properties: {expand: true}
+          event_bindings: {change: drop_down_language_change}
+        - name: drop_down_accent
+          properties: {}
+          type: DropDown
+          layout_properties: {expand: true}
+          event_bindings: {change: drop_down_accent_change}
+      - name: label_before
+        properties: {text: 'Before:'}
+        type: Label
+        layout_properties: {grid_position: 'IRCFIC,MQKGKS'}
+      - name: date_picker_filter
+        properties: {role: null, pick_time: false, placeholder: ''}
+        type: DatePicker
+        layout_properties: {grid_position: 'IRCFIC,JXMZRR'}
+        data_bindings:
+        - {property: max_date, code: self.today, writeback: false}
+        - {property: date, code: self.today, writeback: false}
+        event_bindings: {change: date_picker_filter_change}
+      layout_properties: {grid_position: 'ZGPKQO,GBEXGL'}
+- name: spacer_1
+  properties: {height: 32}
+  type: Spacer
+  layout_properties: {grid_position: 'JZFPFR,MZVWGZ'}
+- name: label_seekable
+  properties: {align: center, text: 'To load page within reasonable amount of time,
+      lazy media is used, and audio is not seekable. View in Video page for seekable
+      audio.'}
+  type: Label
+  layout_properties: {grid_position: 'TATVCH,JWVLFB'}
+- name: column_panel_noLiked
+  properties: {role: elevated-card, visible: false}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'ZQLJPU,ELCRMM'}
+  components:
+  - name: label_noLiked
+    properties: {align: center, text: No records}
+    type: Label
+    layout_properties: {grid_position: 'VWUUNV,FVNPLY'}
+- name: repeating_panel
+  properties: {item_template: LikedDubView, role: null}
+  type: RepeatingPanel
+  layout_properties: {grid_position: 'BCDDLX,IHGVTB'}
+is_package: true

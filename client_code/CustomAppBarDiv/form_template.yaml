@@ -1,0 +1,13 @@
+properties:
+- {name: visible, type: boolean, default_value: true, important: true, default_binding_prop: true,
+  designer_hint: visible}
+- {name: width, type: string, important: true, default_value: ''}
+is_package: true
+custom_component: true
+components: []
+container:
+  type: HtmlTemplate
+  properties: {html: "<div anvil-name=\"custom-container-component\">\n  <div anvil-slot=\"\
+      normal-slot\" style=\"border-radius: 15px; background-color: #e7e0ec; padding-left:\
+      \ 10px; padding-right: 10px;\">\n  </div>\n</div>"}
+custom_component_container: true

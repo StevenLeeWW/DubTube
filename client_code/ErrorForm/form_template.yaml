@@ -1,0 +1,25 @@
+container: {type: ColumnPanel}
+components:
+- name: spacer_2
+  properties: {height: 32}
+  type: Spacer
+  layout_properties: {grid_position: 'HQRRUT,XENBHW', full_width_row: true}
+- name: column_panel_1
+  properties: {}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'DOWVHD,MIFNLH', full_width_row: true}
+  components:
+  - name: image_sad_dubTube
+    properties: {source: _/theme/dubtubeSad.png}
+    type: Image
+    layout_properties: {grid_position: 'BJAYSK,XBIWYW'}
+- name: spacer_1
+  properties: {height: 32}
+  type: Spacer
+  layout_properties: {grid_position: 'XNLZBR,UYSZWL', full_width_row: true}
+- name: label_error_page
+  properties: {align: center, bold: true, text: 'Sorry, this page does not exist...',
+    role: display}
+  type: Label
+  layout_properties: {grid_position: 'SZFMOB,HWSEOC', full_width_row: true}
+is_package: true

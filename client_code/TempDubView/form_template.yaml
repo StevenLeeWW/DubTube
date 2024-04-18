@@ -1,0 +1,102 @@
+container:
+  type: ColumnPanel
+  properties: {visible: true}
+components:
+- name: column_panel_4
+  properties: {}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'UWRWLN,EKLJYK'}
+  components:
+  - name: column_panel_1
+    properties: {role: elevated-card}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'VFMLUD,ERAPCM'}
+    components:
+    - name: label_title
+      properties: {role: title, bold: true, font_size: 16}
+      type: Label
+      layout_properties: {grid_position: 'WBCQUZ,BRXEMN'}
+      data_bindings:
+      - {property: text, code: 'self.item[''video''][''videoTitle'']', writeback: false}
+    - name: flow_panel_1
+      properties: {}
+      type: FlowPanel
+      layout_properties: {grid_position: 'WUDFRY,TKDUQQ'}
+      components:
+      - name: column_panel_3
+        properties: {}
+        type: ColumnPanel
+        layout_properties: {width: 320}
+        components:
+        - name: youtube_video
+          properties: {height: '180', youtube_id: tdDyv8_0-z4, mute: true}
+          type: YouTubeVideo
+          layout_properties: {grid_position: 'NTXGYC,ZVUHVX'}
+          data_bindings:
+          - {property: youtube_id, code: 'self.item[''video''][''youTubeVideoID'']',
+            writeback: false}
+      - name: column_panel_2
+        properties: {}
+        type: ColumnPanel
+        layout_properties: {width: 532, expand: true}
+        components:
+        - name: column_panel_5
+          properties: {col_widths: '{"UYQTBI":30,"YFQCHY":25}'}
+          type: ColumnPanel
+          layout_properties: {grid_position: 'WDQRSL,BCUUFN'}
+          components:
+          - name: link_channel
+            properties: {col_widths: '{"LOYMIT":15,"VDXQWK":45}', align: center}
+            type: Link
+            components:
+            - name: flow_panel_14
+              properties: {align: center}
+              type: FlowPanel
+              layout_properties: {grid_position: 'QBNHOS,LOYMIT'}
+              components:
+              - name: channel_picture
+                properties: {}
+                type: form:ChannelPicture
+                data_bindings:
+                - {property: source, code: 'self.item[''createdBy''][''profilePicture'']',
+                  writeback: false}
+            - name: flow_panel_16
+              properties: {align: center}
+              type: FlowPanel
+              layout_properties: {grid_position: 'QBNHOS,VDXQWK'}
+              components:
+              - name: label_channel
+                properties: {bold: false, align: center}
+                type: Label
+                data_bindings:
+                - {property: text, code: 'self.item[''createdBy''][''profileName'']',
+                  writeback: false}
+                layout_properties: {}
+            event_bindings: {click: link_channel_click}
+            layout_properties: {grid_position: 'AOMBZB,UYQTBI'}
+          - name: button_download_dub
+            properties: {text: Download, role: elevated-button, tooltip: Download unpublished dub,
+              spacing_above: medium}
+            type: Button
+            layout_properties: {grid_position: 'AOMBZB,HPFZBS'}
+            event_bindings: {click: button_download_dub_click}
+          - name: button_play
+            properties: {text: Play in sync, role: elevated-button, spacing_above: medium}
+            type: Button
+            layout_properties: {grid_position: 'AOMBZB,YFQCHY'}
+            event_bindings: {click: button_play_click}
+        - name: flow_panel_audioPlayer
+          properties: {}
+          type: FlowPanel
+          layout_properties: {grid_position: 'VATLGF,SMWXZS'}
+          components:
+          - name: audio_player
+            properties: {}
+            type: form:AudioPlayerVideoPlayerPage
+            layout_properties: {expand: true}
+            data_bindings:
+            - {property: source, code: 'self.item[''dub'']', writeback: false}
+          data_bindings:
+          - {property: tag, code: '''dubView''', writeback: false}
+is_package: true
+custom_component: false

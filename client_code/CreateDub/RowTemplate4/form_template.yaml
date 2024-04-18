@@ -1,0 +1,54 @@
+is_package: true
+container: {type: DataRowPanel}
+components:
+- name: flow_panel_1
+  properties: {align: center}
+  type: FlowPanel
+  layout_properties: {column: VJQQOR}
+  components:
+  - name: text_box_startMin
+    properties: {type: number}
+    type: TextBox
+    layout_properties: {width: 50}
+    data_bindings:
+    - {property: text, code: 'self.item[''startMin'']', writeback: true}
+  - name: text_box_startSec
+    properties: {type: number}
+    type: TextBox
+    layout_properties: {width: 50}
+    data_bindings:
+    - {property: text, code: 'self.item[''startSec'']', writeback: true}
+- name: flow_panel_2
+  properties: {align: center}
+  type: FlowPanel
+  layout_properties: {column: OJLQEN}
+  components:
+  - name: text_box_endMin
+    properties: {text: '', type: number}
+    type: TextBox
+    layout_properties: {width: 50}
+    data_bindings:
+    - {property: text, code: 'self.item[''endMin'']', writeback: true}
+  - name: text_box_endSec
+    properties: {type: number}
+    type: TextBox
+    layout_properties: {width: 50}
+    data_bindings:
+    - {property: text, code: 'self.item[''endSec'']', writeback: true}
+- name: drop_down_speaker
+  properties: {spacing_above: medium}
+  type: DropDown
+  layout_properties: {column: JKSDUP}
+  data_bindings:
+  - {property: selected_value, code: 'self.item[''speaker'']', writeback: true}
+- name: text_box_text
+  properties: {spacing_above: medium}
+  type: TextBox
+  layout_properties: {column: RVGOPJ}
+  data_bindings:
+  - {property: text, code: 'self.item[''text'']', writeback: true}
+- name: button_delete
+  properties: {text: '', role: filled-button, icon: 'fa:trash', spacing_above: medium}
+  type: Button
+  layout_properties: {column: PDUDUT}
+  event_bindings: {click: button_delete_click}

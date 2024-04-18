@@ -1,0 +1,121 @@
+container: {type: ColumnPanel}
+components:
+- name: column_panel_4
+  properties: {}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'UWRWLN,EKLJYK', full_width_row: true}
+  components:
+  - name: column_panel_1
+    properties: {role: elevated-card}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'VFMLUD,ERAPCM'}
+    components:
+    - name: flow_panel_1
+      properties: {}
+      type: FlowPanel
+      layout_properties: {grid_position: 'WUDFRY,TKDUQQ'}
+      components:
+      - name: column_panel_3
+        properties: {}
+        type: ColumnPanel
+        layout_properties: {width: 320}
+        components:
+        - name: youtube_video
+          properties: {height: '180', youtube_id: '', mute: true}
+          type: YouTubeVideo
+          layout_properties: {grid_position: 'NTXGYC,ZVUHVX'}
+          data_bindings: []
+      - name: column_panel_2
+        properties: {}
+        type: ColumnPanel
+        layout_properties: {width: 532, expand: true}
+        components:
+        - name: link_video
+          properties: {}
+          type: Link
+          layout_properties: {grid_position: 'MKBYAN,QZCGNM'}
+          components:
+          - name: label_title
+            properties: {role: title, bold: true, font_size: 16}
+            type: Label
+            layout_properties: {grid_position: 'JSPMWG,UHEGCQ'}
+            data_bindings:
+            - {property: text, code: 'self.item[''videoTitle'']', writeback: false}
+          data_bindings:
+          - {property: url, code: 'self.item[''requestVideoUrl'']', writeback: false}
+        - name: column_panel_5
+          properties: {col_widths: '{"MYRFEZ":30,"JZDVZO":20,"KGOXLZ":10}'}
+          type: ColumnPanel
+          layout_properties: {grid_position: 'HZULVH,GXBIKV'}
+          components:
+          - name: flow_panel_6
+            properties: {align: center}
+            type: FlowPanel
+            components:
+            - name: label_languageTitle
+              properties: {text: 'Requested language: '}
+              type: Label
+              layout_properties: {}
+            - name: label_language
+              properties: {}
+              type: Label
+              data_bindings:
+              - {property: text, code: 'self.item[''requestLanguage'']', writeback: false}
+            layout_properties: {grid_position: 'NZHPAQ,MYRFEZ'}
+          - name: flow_panel_5
+            properties: {align: center}
+            type: FlowPanel
+            components:
+            - name: label_accentTitle
+              properties: {text: 'Req. accent: '}
+              type: Label
+              layout_properties: {}
+            - name: label_accent
+              properties: {bold: false}
+              type: Label
+              data_bindings:
+              - {property: text, code: 'self.item[''requestAccent'']', writeback: false}
+            layout_properties: {grid_position: 'NZHPAQ,JZDVZO'}
+          - name: button_create
+            properties: {text: '', icon: 'fa:plus-square', role: filled-button, background: ''}
+            type: Button
+            layout_properties: {grid_position: 'NZHPAQ,KGOXLZ'}
+            event_bindings: {click: button_create_click}
+        - name: column_panel_6
+          properties: {col_widths: '{"BBJGDJ":30,"NHRYBN":20,"CCTDFF":10}'}
+          type: ColumnPanel
+          layout_properties: {grid_position: 'WMEZCY,EMOPBO'}
+          components:
+          - name: flow_panel_9
+            properties: {align: center}
+            type: FlowPanel
+            components:
+            - name: label_requestTitle
+              properties: {text: 'Number of request:    '}
+              type: Label
+              layout_properties: {}
+            - name: label_request
+              properties: {bold: false}
+              type: Label
+              data_bindings: []
+            layout_properties: {grid_position: 'SWZCHB,BBJGDJ'}
+          - name: flow_panel_7
+            properties: {align: center}
+            type: FlowPanel
+            components:
+            - name: label_requestedOnTitle
+              properties: {text: 'First request: '}
+              type: Label
+              layout_properties: {}
+            - name: label_requestedOn
+              properties: {}
+              type: Label
+              data_bindings:
+              - {property: text, code: 'self.item[''requestedOn''].date()', writeback: false}
+            layout_properties: {grid_position: 'SWZCHB,NHRYBN'}
+          - name: spacer_4
+            properties: {height: '2'}
+            type: Spacer
+            layout_properties: {grid_position: 'SWZCHB,CCTDFF'}
+is_package: true
+custom_component: false

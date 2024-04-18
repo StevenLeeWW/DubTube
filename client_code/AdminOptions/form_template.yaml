@@ -1,0 +1,35 @@
+container: {type: ColumnPanel}
+components:
+- name: flow_panel_options
+  properties: {align: center}
+  type: FlowPanel
+  layout_properties: {grid_position: 'SXODKC,VXQZRZ', full_width_row: true}
+  components:
+  - name: button_addAdmin
+    properties: {text: Add Admin, role: filled-button, icon: 'fa:user-circle', tooltip: Add an admin account}
+    type: Button
+    layout_properties: {}
+    event_bindings: {click: button_addAdmin_click}
+  - name: button_allFlags
+    properties: {text: All flags, role: filled-button, icon: 'fa:flag-checkered',
+      tooltip: Go to the "All flags" page}
+    type: Button
+    layout_properties: {}
+    event_bindings: {click: button_allFlags_click}
+  - name: button_blocked
+    properties: {text: Blocked dubs, role: filled-button, icon: 'fa:ban', background: '',
+      tooltip: Go to the "Blocked dubs" page}
+    type: Button
+    event_bindings: {click: button_blocked_click}
+    layout_properties: {}
+  - name: button_ads
+    properties: {text: Ads, role: filled-button, icon: 'fa:bullhorn', tooltip: Check the list of advertisements}
+    type: Button
+    layout_properties: {}
+    event_bindings: {click: button_ads_click}
+  - name: button_top_ten
+    properties: {text: Top 10, role: filled-button, icon: 'fa:trophy', tooltip: Check the top 10 dubbers}
+    type: Button
+    layout_properties: {}
+    event_bindings: {click: button_top_ten_click}
+is_package: true

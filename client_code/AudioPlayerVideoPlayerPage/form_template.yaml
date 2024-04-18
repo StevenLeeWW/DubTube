@@ -1,0 +1,24 @@
+properties:
+- {name: source, type: uri, important: true, default_binding_prop: true, accept: audio/*,
+  designer_hint: asset-upload}
+- {name: audioid, type: string, default_value: '', important: true}
+- {name: currenttime, type: number, important: true}
+is_package: true
+events:
+- {name: play, default_event: true, description: when the audio is played}
+- {name: pause, description: when the audio is paused}
+- {name: timeupdate}
+custom_component: true
+components: []
+container:
+  type: HtmlTemplate
+  properties: {html: "<center class='audioplayer'>\n  <audio anvil-name='audio' id='audio'\
+      \ controls controlsList='nodownload' style=\"width: 100%; height: 40px\">\n\
+      \    <source anvil-name='audioSource' src=\"\" type=\"audio/mpeg\" id='audioSource'>\n\
+      \    Your browser does not support the audio tag.\n  </audio>\n</center>\n\n\
+      <div anvil-slot=\"default\"></div>\n\n<script>\n  \n  // Add event listeners\
+      \ for both play and pause events:\n  document.getElementById(\"audio\").addEventListener(\"\
+      play\", () => {\n    // fetchAndPlayAudio(document.getElementById(\"audioSource\"\
+      ).src)\n    anvil.call($('.audioplayer'), 'vplay');\n  });\n  \n  document.getElementById(\"\
+      audio\").addEventListener(\"pause\", () => {\n    anvil.call($('.audioplayer'),\
+      \ 'vpause');\n  });\n\n  \n\n</script>"}

@@ -1,0 +1,112 @@
+container: {type: ColumnPanel}
+components:
+- name: column_panel_dubInfoBar
+  properties: {role: elevated-card, background: ''}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'WVCDAY,NWMCID', row_background: ''}
+  components:
+  - name: column_panel_1
+    properties: {col_widths: '{"FAEILL":10,"TJVQXD":10,"IJUQXE":20,"ENZSXN":20}',
+      col_spacing: small}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'BSICUF,JNCGDL'}
+    components:
+    - name: link_channel
+      properties: {col_widths: '{"JDNPVQ":25,"EJFJZX":35}', align: center}
+      type: Link
+      components:
+      - name: channel_picture
+        properties: {height: '50', width: '50'}
+        type: form:ChannelPicture
+        data_bindings:
+        - {property: source, code: 'self.item[''createdBy''][''profilePicture'']',
+          writeback: false}
+        layout_properties: {grid_position: 'BMLRXH,JDNPVQ'}
+      - name: flow_panel_1
+        properties: {align: center}
+        type: FlowPanel
+        components:
+        - name: label_channelName
+          properties: {foreground: '#000000', align: center}
+          type: Label
+          data_bindings:
+          - {property: text, code: 'self.item[''createdBy''][''profileName'']', writeback: false}
+          layout_properties: {}
+        layout_properties: {grid_position: 'BMLRXH,EJFJZX'}
+      layout_properties: {grid_position: 'GXVFPQ,FAEILL'}
+      event_bindings: {click: link_channel_click}
+    - name: button_subscribe
+      properties: {text: Subscribe, role: filled-button, spacing_above: medium, tooltip: ''}
+      type: Button
+      event_bindings: {click: button_subscribe_click}
+      layout_properties: {grid_position: 'GXVFPQ,TJVQXD'}
+    - name: link_playSelect
+      properties: {foreground: '#000000'}
+      type: Link
+      layout_properties: {grid_position: 'GXVFPQ,IJUQXE'}
+      components:
+      - name: flow_panel_6
+        properties: {spacing_above: small, align: justify}
+        type: FlowPanel
+        layout_properties: {grid_position: 'WXIZVW,GUERNY'}
+        components:
+        - name: label_language
+          properties: {}
+          type: Label
+          data_bindings:
+          - {property: text, code: 'self.item[''language'']', writeback: false}
+        - name: label_accent
+          properties: {}
+          type: Label
+          data_bindings:
+          - {property: text, code: 'self.item[''accent'']', writeback: false}
+        - name: label_listens
+          properties: {}
+          type: Label
+          data_bindings:
+          - {property: text, code: 'str(self.item[''listens'']) + '' listens''', writeback: false}
+        - name: label_likes
+          properties: {}
+          type: Label
+          data_bindings:
+          - {property: text, code: 'str(self.item[''likes'']) + '' likes''', writeback: false}
+      event_bindings: {click: link_playSelect_click}
+    - name: flow_panel_9
+      properties: {align: center}
+      type: FlowPanel
+      components:
+      - name: button_like
+        properties: {text: '', icon: 'fa:thumbs-up', role: tonal-button, tooltip: Like this dub}
+        type: Button
+        event_bindings: {click: button_like_click}
+        layout_properties: {}
+      - name: button_dislike
+        properties: {text: '', role: tonal-button, icon: 'fa:thumbs-down', tooltip: Dislike this dub}
+        type: Button
+        event_bindings: {click: button_dislike_click}
+        layout_properties: {}
+      - name: button_flag
+        properties: {text: '', icon: 'fa:flag', role: tonal-button, tooltip: Flag this dub}
+        type: Button
+        event_bindings: {click: button_flag_click}
+        layout_properties: {}
+      - name: link_paypal
+        properties: {align: center}
+        type: Link
+        components:
+        - name: button_donate
+          properties: {text: '', role: tonal-button, icon: 'fa:dollar', spacing_below: small,
+            spacing_above: none, tooltip: Donate to the channel with PayPal}
+          type: Button
+          event_bindings: {click: button_donate_click}
+          layout_properties: {grid_position: 'ARJLGG,CNINTT'}
+        event_bindings: {click: link_paypal_click}
+        layout_properties: {}
+      layout_properties: {grid_position: 'GXVFPQ,ENZSXN'}
+  - name: button_share
+    properties: {text: Share, role: filled-button, icon: 'fa:share', background: '#ff6541',
+      tooltip: Get the link of this dub}
+    type: Button
+    layout_properties: {grid_position: 'GYERUZ,JTSYZV', full_width_row: true}
+    event_bindings: {click: button_share_click}
+is_package: true
