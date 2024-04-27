@@ -10,6 +10,7 @@ from anvil.tables import app_tables
 from anvil.js.window import navigator
 from datetime import datetime, timedelta
 
+
 class ProfileContent(ProfileContentTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
@@ -22,8 +23,20 @@ class ProfileContent(ProfileContentTemplate):
     if 'Firefox' in str(navigator.userAgent):
       self.label_seekable.visible = False
 
+
+  def refresh_contents(self):
+    """Get dubs from the Data Table"""
+    self.text_box_searchContent.text = ''
+    language = self.drop_down_language.selected_value
+    accent = self.drop_down_accent.selected_value
+    date = self.date_picker_filter.date
+    user = anvil.users.get_user()
+    contents = anvil.server.call('get_dubs', language, accent, None, user, date)
+    self.refresh_contents_helper(contents)
+
+  
   def refresh_contents_helper(self, contents):
-    """Load dubs from the Data Table, and display them in the RepeatingPanel"""
+    """Get dubs and display them in the RepeatingPanel"""
     listOfDubs = contents[0]
     atLeastOneDub = contents[1]
 
@@ -41,30 +54,24 @@ class ProfileContent(ProfileContentTemplate):
       self.column_panel_noContent.visible = False
       self.repeating_panel.visible = True
 
-
-  def refresh_contents(self):
-    """Load dubs from the Data Table, and display them in the RepeatingPanel"""
-    self.text_box_searchContent.text = ''
-    language = self.drop_down_language.selected_value
-    accent = self.drop_down_accent.selected_value
-    date = self.date_picker_filter.date
-    user = anvil.users.get_user()
-    contents = anvil.server.call('get_dubs', language, accent, None, user, date)
-    self.refresh_contents_helper(contents)
-
+  
   def date_picker_filter_change(self, **event_args):
     """This method is called when the selected date changes"""
     self.refresh_contents()
 
+  
   def drop_down_language_change(self, **event_args):
-    """This method is called when an item is selected"""
+    """This method is called when an item in the language drop down list is selected"""
     self.refresh_contents()
 
+  
   def drop_down_accent_change(self, **event_args):
-    """This method is called when an item is selected"""
+    """This method is called when an item in the accent drop down list is selected"""
     self.refresh_contents()
 
+  
   def searchContent(self):
+    """Search the created dub"""
     if self.text_box_searchContent.text != '':
       if anvil.server.call('get_video_id_from_url', self.text_box_searchContent.text) is not None:
         videoUrl = self.text_box_searchContent.text
@@ -94,28 +101,24 @@ class ProfileContent(ProfileContentTemplate):
         contents = [[], False]
         self.refresh_contents_helper(contents)
 
+  
   def text_box_searchContent_pressed_enter(self, **event_args):
     """This method is called when the user presses Enter in this text box"""
     self.searchContent()
 
+  
   def button_searchContent_click(self, **event_args):
-    """This method is called when the button is clicked"""
+    """This method is called when the 'search' button is clicked"""
     self.searchContent()
 
+  
   def button_showAll_click(self, **event_args):
-    """This method is called when the button is clicked"""
+    """This method is called when the 'show all' button is clicked"""
     self.drop_down_language.selected_value = 'Any language'
     self.drop_down_accent.selected_value = 'Any accent'
     self.date_picker_filter.date = datetime.now().date()
     self.refresh_contents()
 
-  # def delete_dub(self, audioRow, **event_args):
-  #   deleteSuccessful = anvil.server.call('delete_audio', audioRow)
-  #   if deleteSuccessful:
-  #     Notification('Deleted successfully', style='success').show()
-  #     self.refresh_contents()
-  #   else:
-  #     Notification('Deletion failed.', title='Warning', style='warning', timeout=3).show()
 
   def button_yourContent_click(self, **event_args):
     """This method is called when the button is clicked"""

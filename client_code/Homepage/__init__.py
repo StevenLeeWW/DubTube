@@ -9,10 +9,6 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.js
-
-from anvil_extras import routing
-routing.logger.debug = False # Toggle this setting for logging print statements
-
 from ..Home import Home
 from ..History import History
 from ..Liked import Liked
@@ -37,6 +33,9 @@ from ..Channel import Channel
 from ..CreateDub import CreateDub
 from ..VideoPlayer import VideoPlayer
 from ..ErrorForm import ErrorForm
+from anvil_extras import routing
+routing.logger.debug = False # Toggle this setting for logging print statements
+
 
 # @routing.main_router
 @routing.template(path="", priority=0, condition=None)
@@ -47,8 +46,6 @@ class Homepage(HomepageTemplate):
     # Any code you write here will run before the form opens.
     self.showProfilePicture()
     self.link_home.role = 'selected'
-    # self.content_panel.clear()
-    # self.content_panel.add_component(Home())
     self.link_DubTube.width = 190
     self.button_search.width = 50
     
@@ -123,8 +120,6 @@ class Homepage(HomepageTemplate):
       else:
         return False
     else:
-      # Global.user = currentUser
-      # self.showProfilePicture()
       if currentUser['admin']:
         self.link_admin.visible = True
       else:
@@ -165,8 +160,6 @@ class Homepage(HomepageTemplate):
     self.text_box_search.text = ''
     self.reset_links()
     self.link_home.role = 'selected'
-    # self.content_panel.clear()
-    # self.content_panel.add_component(Home())
     routing.set_url_hash('')
 
   
@@ -177,8 +170,6 @@ class Homepage(HomepageTemplate):
       self.text_box_search.text = ''
       self.reset_links()
       self.link_history.role = 'selected'
-      # self.content_panel.clear()
-      # self.content_panel.add_component(History())
       routing.set_url_hash('history')
 
   
@@ -189,8 +180,6 @@ class Homepage(HomepageTemplate):
       self.text_box_search.text = ''
       self.reset_links()
       self.link_liked.role = 'selected'
-      # self.content_panel.clear()
-      # self.content_panel.add_component(Liked())
       routing.set_url_hash('liked')
 
   
@@ -198,6 +187,8 @@ class Homepage(HomepageTemplate):
     '''Triggered when the create link is clicked. Check whether the user has logged in. If yes, clear the content panel and add the History page.'''
     self.link_create.role = 'selected'
     loggedIn = self.checkLogin()
+    if loggedIn:
+      pass
     currentUser = anvil.users.get_user()
     if currentUser is not None:
       new_dub = {}
@@ -209,7 +200,7 @@ class Homepage(HomepageTemplate):
       )
       if save_clicked:
         dubRow = anvil.server.call('check_dub_existed2', new_dub)
-        if dubRow != False:
+        if dubRow is not False:
           if dubRow is not None:
             if confirm('You have a dub for the video with the same language and accent. Do you want to replace it?'):
               anvil.server.call('delete_audio', dubRow)
@@ -217,8 +208,6 @@ class Homepage(HomepageTemplate):
               return None
           success = anvil.server.call('add_audio', new_dub)
           if success:
-            # self.content_panel.clear()
-            # self.content_panel.add_component(Content())
             routing.set_url_hash('content')
             Notification('New dub created successfully!', title='Success', style='success', timeout=3).show()
           else:
@@ -235,13 +224,8 @@ class Homepage(HomepageTemplate):
       self.text_box_search.text = ''
       self.reset_links()
       self.link_content.role = 'selected'
-      # self.content_panel.clear()
-      # self.content_panel.add_component(Content())
       routing.set_url_hash('content')
 
-  # def link_liked2_click(self, **event_args):
-  #   """This method is called when the link is clicked"""
-  #   loggedIn = self.checkLogin()
 
   def link_flagged_click(self, **event_args):
     '''Triggered when the flag link is clicked. Check whether the user has logged in. If yes, clear the content panel and add the Flag page.'''
@@ -250,8 +234,6 @@ class Homepage(HomepageTemplate):
       self.text_box_search.text = ''
       self.reset_links()
       self.link_flagged.role = 'selected'
-      # self.content_panel.clear()
-      # self.content_panel.add_component(Flag())
       routing.set_url_hash('flag')
   
 
@@ -262,8 +244,6 @@ class Homepage(HomepageTemplate):
       self.text_box_search.text = ''
       self.reset_links()
       self.link_subscribed.role = 'selected'
-      # self.content_panel.clear()
-      # self.content_panel.add_component(Subscriptions())
       routing.set_url_hash('subscription')
 
   
@@ -278,33 +258,25 @@ class Homepage(HomepageTemplate):
       videoid = anvil.server.call('get_video_id_from_url', self.text_box_search.text)
       if videoid is not None:
         videoUrl = self.text_box_search.text
-        # self.content_panel.clear()
         url_dict = {'ytid': videoid, 'keyword': ''}
         video_properties = {'videourl': videoUrl, 'videotitlekeyword': ''}
         if anvil.users.get_user() is not None:
           if anvil.users.get_user()['admin']:
-            # self.content_panel.add_component(SearchResultsAdmin(**video_properties))
             routing.set_url_hash(url_pattern='searchadmin', url_dict=url_dict, **video_properties)
           else:
-            # self.content_panel.add_component(SearchResults(**video_properties))
             routing.set_url_hash(url_pattern='search', url_dict=url_dict, **video_properties)
         else:
-          # self.content_panel.add_component(SearchResults(**video_properties))
           routing.set_url_hash(url_pattern='search', url_dict=url_dict, **video_properties)
       else:
         keyword = self.text_box_search.text
-        # self.content_panel.clear()
         url_dict = {'ytid': '', 'keyword': keyword}
         video_properties = {'videourl': '', 'videotitlekeyword': self.text_box_search.text}
         if anvil.users.get_user() is not None:
           if anvil.users.get_user()['admin']:
-            # self.content_panel.add_component(SearchResultsAdmin(**video_properties))
             routing.set_url_hash(url_pattern='searchadmin', url_dict=url_dict, **video_properties)
           else:
-            # self.content_panel.add_component(SearchResults(**video_properties))
             routing.set_url_hash(url_pattern='search', url_dict=url_dict, **video_properties)
         else:
-          # self.content_panel.add_component(SearchResults(**video_properties))
           routing.set_url_hash(url_pattern='search', url_dict=url_dict, **video_properties)
 
   
@@ -317,8 +289,6 @@ class Homepage(HomepageTemplate):
     '''Clear the content panel and add the Trending page when the trending link on the homepage is clicked.'''
     self.text_box_search.text = ''
     self.reset_links()
-    # self.content_panel.clear()
-    # self.content_panel.add_component(Trending())
     routing.set_url_hash('trending')
 
   
@@ -328,8 +298,6 @@ class Homepage(HomepageTemplate):
     if loggedIn:
       self.text_box_search.text = ''
       self.reset_links()
-      # self.content_panel.clear()
-      # self.content_panel.add_component(Requests())
       routing.set_url_hash('request')
 
   
@@ -337,8 +305,6 @@ class Homepage(HomepageTemplate):
     '''Clear the content panel and add the Public request page when the public request link on the Home page is clicked.'''
     self.text_box_search.text = ''
     self.reset_links()
-    # self.content_panel.clear()
-    # self.content_panel.add_component(PublicRequests())
     routing.set_url_hash('publicrequest')
 
   
@@ -351,18 +317,12 @@ class Homepage(HomepageTemplate):
       if anvil.users.get_user()['admin']:
         Notification('Admin is not allowed to post advertisements.', style='warning', timeout=3, title='Warning').show()
       else:
-        # self.content_panel.clear()
-        # self.content_panel.add_component(Advertisements())
         routing.set_url_hash('advertisement')
         
 
   def reset_links_color(self, **event_args):
     '''Reset the links to default role'''
-    # self.link_home.foreground = 'black'
-    # self.link_history.foreground = 'black'
-    # self.link_liked.foreground = 'black'
     self.link_content.foreground = 'black'
-    # self.link_create.foreground = 'black'
     self.link_flagged.foreground = 'black'
     self.link_subscribed.foreground = 'black'
 
@@ -376,12 +336,9 @@ class Homepage(HomepageTemplate):
       buttons=[('Cancel', -1)]
     )
     if option != -1:
-      # Clear the content panel and add the 
       if option == 'profile':
         self.text_box_search.text = ''
         self.reset_links()
-        # self.content_panel.clear()
-        # self.content_panel.add_component(Profile())
         routing.set_url_hash('profile')
       elif option == 'logout':
         logOut = confirm("Do you want to log out?")
@@ -416,10 +373,6 @@ class Homepage(HomepageTemplate):
               Notification('This account does not exist. Current account is logged out.', style='warning', title='Attention', timeout=3).show()
           
 
-  # def button_1_click(self, **event_args):
-  #   """This method is called when the button is clicked"""
-  #   anvil.server.call('button_1')
-
   def link_admin_click(self, **event_args):
     """This method is called when the link is clicked"""
     if anvil.users.get_user()['admin']:
@@ -438,25 +391,17 @@ class Homepage(HomepageTemplate):
         elif option == 'allFlags':
           self.text_box_search.text = ''
           self.reset_links()
-          # self.content_panel.clear()
-          # self.content_panel.add_component(FlagAdmin())
           routing.set_url_hash('flagadmin')
         elif option == 'blockedDubs':
           self.text_box_search.text = ''
           self.reset_links()
-          # self.content_panel.clear()
-          # self.content_panel.add_component(BlockedDubs())
           routing.set_url_hash('blockeddub')
         elif option == 'adsAdmin':
           self.text_box_search.text = ''
           self.reset_links()
-          # self.content_panel.clear()
-          # self.content_panel.add_component(AdvertisementsAdmin())
           routing.set_url_hash('advertisementadmin')
         elif option == 'topTen':
           self.text_box_search.text = ''
           self.reset_links()
-          # self.content_panel.clear()
-          # self.content_panel.add_component(Earn())
           routing.set_url_hash('earnadmin')
 

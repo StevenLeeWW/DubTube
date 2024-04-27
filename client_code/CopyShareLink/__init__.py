@@ -14,12 +14,13 @@ class CopyShareLink(CopyShareLinkTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-
     # Any code you write here will run before the form opens.
+    
 
   def button_copy_click(self, **event_args):
-    """This method is called when the button is clicked"""
+    """This method is called when the 'copy' button is clicked"""
     link = self.text_box_link.text
+    # Copy the link to clipboard
     navigator.clipboard.writeText(link)
     self.raise_event('x-close-alert', value=None)
     Notification('Link copied.', style='success', title='Success').show()

@@ -11,6 +11,7 @@ from ..RequestEdit import RequestEdit
 from anvil.js.window import navigator
 from anvil_extras import routing
 
+
 @routing.route('search', url_keys=['ytid', 'keyword', routing.ANY])
 class SearchResults(SearchResultsTemplate):
   def __init__(self, **properties):
@@ -24,7 +25,7 @@ class SearchResults(SearchResultsTemplate):
         if properties is None:
           Notification('Invalid URL.', style='warning', title='Alert', timeout=3).show()
           return None
-    except:
+    except Exception:
       properties = self.get_properties(properties)
       if properties is None:
         Notification('Invalid URL.', style='warning', title='Alert', timeout=3).show()
@@ -39,19 +40,23 @@ class SearchResults(SearchResultsTemplate):
     self.refresh_dubs()
     if 'Firefox' in str(navigator.userAgent):
       self.label_seekable.visible = False
+
   
   @property
   def videourl(self):
     return self._videourl
 
+  
   @videourl.setter
   def videourl(self, value):
     self._videourl = value
 
+  
   @property
   def videotitlekeyword(self):
     return self._videotitlekeyword
 
+  
   @videotitlekeyword.setter
   def videotitlekeyword(self, value):
     self._videotitlekeyword = value
@@ -62,10 +67,9 @@ class SearchResults(SearchResultsTemplate):
   
 
   def get_properties(self, properties):
+    """Get the properties from the url"""
     try:
-      # print('aaaaaaaaaaaaaaa')
       videoid = routing.get_url_dict()['ytid']
-      # print('bbbbbbbbbbbbbbb')
       if videoid != '':
         videourl = 'https://www.youtube.com/watch?v=' + videoid
         properties['videourl'] = videourl
@@ -75,14 +79,14 @@ class SearchResults(SearchResultsTemplate):
         keyword = routing.get_url_dict()['keyword']
         properties['videotitlekeyword'] = keyword
       return properties
-    except:
+    except Exception:
       routing.set_url_hash('')
       routing.clear_cache()
       return None
 
   
   def refresh_dubs(self):
-    """Load existing dubs from the Data Table, and display them in the RepeatingPanel"""
+    """Get existing dubs from the Data Table, and display them in the RepeatingPanel"""
     user = anvil.users.get_user()
     if user is not None:
       if user['admin']:
@@ -91,7 +95,7 @@ class SearchResults(SearchResultsTemplate):
         return None
     dubRowsAtLeastOneDub = anvil.server.call('get_search_dubs', self._videourl, self._videotitlekeyword)
     dubRows = dubRowsAtLeastOneDub[0]
-    unblockedDubRows = [dub for dub in dubRows if dub['blocked'] == False]
+    unblockedDubRows = [dub for dub in dubRows if dub['blocked'] is False]
     atLeastOneDub = dubRowsAtLeastOneDub[1]
     if atLeastOneDub and len(unblockedDubRows) > 0:
       self.column_panel_noAvailableDubs.visible = False
@@ -104,12 +108,14 @@ class SearchResults(SearchResultsTemplate):
         self.label_noAvailableDubs.text = 'Sorry. No matching videos are found in DubTube.'
       self.repeating_panel_searchResults.items = unblockedDubRows
 
+  
   def drop_down_change(self):
+    """Filter the search results based on the language and accent"""
     selectedLanguage = self.drop_down_searchLanguage.selected_value
     selectedAccent = self.drop_down_searchAccent.selected_value
     dubRowsAtLeastOneDub = anvil.server.call('get_search_dubs', self._videourl, self._videotitlekeyword, selectedLanguage, selectedAccent)
     dubRows = dubRowsAtLeastOneDub[0]
-    unblockedDubRows = [dub for dub in dubRows if dub['blocked'] == False]
+    unblockedDubRows = [dub for dub in dubRows if dub['blocked'] is False]
     atLeastOneDub = dubRowsAtLeastOneDub[1]
     if atLeastOneDub:
       if len(unblockedDubRows) > 0:
@@ -127,21 +133,24 @@ class SearchResults(SearchResultsTemplate):
         self.label_noAvailableDubs.text = 'Sorry. No matching videos are found in DubTube.'
       self.repeating_panel_searchResults.items = unblockedDubRows
 
+  
   def checkLogin(self):
     homepage = get_open_form()
     return homepage.checkLogin()
 
   
   def drop_down_searchLanguage_change(self, **event_args):
-    """This method is called when an item is selected"""
+    """This method is called when an item in the language drop down list is selected"""
     self.drop_down_change()
 
+  
   def drop_down_searchAccent_change(self, **event_args):
-    """This method is called when an item is selected"""
+    """This method is called when an item in the accent drop down list is selected"""
     self.drop_down_change()
 
+  
   def button_request_click(self, **event_args):
-    """This method is called when the button is clicked"""
+    """This method is called when the 'request' button is clicked"""
     loggedIn = self.checkLogin()
     if loggedIn:
       new_request = {}
@@ -159,7 +168,8 @@ class SearchResults(SearchResultsTemplate):
         elif message == 'exist':
           Notification('Requested in the past.', style='warning', timeout=3).show()
 
+  
   def button_create_click(self, **event_args):
-    """This method is called when the button is clicked"""
+    """This method is called when the 'create' button is clicked"""
     get_open_form().link_create_click()
       

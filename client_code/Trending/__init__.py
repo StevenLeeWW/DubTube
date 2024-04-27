@@ -11,6 +11,7 @@ from ..Liked import Liked
 from anvil.js.window import navigator
 from anvil_extras import routing
 
+
 @routing.route('trending')
 class Trending(TrendingTemplate):
   def __init__(self, **properties):
@@ -32,15 +33,17 @@ class Trending(TrendingTemplate):
     selectedAccent = self.drop_down_trendAccent.selected_value
     selectedNumberOfResults = int(self.drop_down_numberOfResults.selected_value)
     dubRows = anvil.server.call('get_dubs', selectedLanguage, selectedAccent, selectedNumberOfResults)
-    unblockedDubRows = [dub for dub in dubRows if dub['blocked'] == False]
+    unblockedDubRows = [dub for dub in dubRows if dub['blocked'] is False]
     self.repeating_panel_trending.items = unblockedDubRows
 
+  
   def drop_down_change(self):
+    """Filter the results based on the selected language and accent"""
     selectedLanguage = self.drop_down_trendLanguage.selected_value
     selectedAccent = self.drop_down_trendAccent.selected_value
     selectedNumberOfResults = int(self.drop_down_numberOfResults.selected_value)
     dubRows = anvil.server.call('get_dubs', selectedLanguage, selectedAccent, selectedNumberOfResults)
-    unblockedDubRows = [dub for dub in dubRows if dub['blocked'] == False]
+    unblockedDubRows = [dub for dub in dubRows if dub['blocked'] is False]
     if len(unblockedDubRows) > 0:
       self.column_panel_noAvailableDubs.visible = False
       self.repeating_panel_trending.items = unblockedDubRows
@@ -54,10 +57,12 @@ class Trending(TrendingTemplate):
     """This method is called when an item is selected"""
     self.drop_down_change()
 
+  
   def drop_down_trendAccent_change(self, **event_args):
     """This method is called when an item is selected"""
     self.drop_down_change()
 
+  
   def drop_down_numberOfResults_change(self, **event_args):
     """This method is called when an item is selected"""
     self.drop_down_change()

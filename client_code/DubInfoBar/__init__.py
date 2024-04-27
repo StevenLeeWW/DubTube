@@ -18,15 +18,12 @@ from anvil_extras import routing
 class DubInfoBar(DubInfoBarTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
-    
     self.init_components(**properties)
     self.refresh_dubInfoBar()
-    # self.add_event_handler('x-refreshPage', self.refresh_dubInfoBar)
-    # self.checkSelectedAudio()
-    # Any code you write here will run before the form opens.
 
   
   def refresh_dubInfoBar(self, **event_args):
+    """Get the info needed for the dub info bar"""
     paypal_link = anvil.server.call('get_paypal_link', self.item['createdBy'])
     if paypal_link is None:
       self.link_paypal.url = ''
@@ -36,9 +33,10 @@ class DubInfoBar(DubInfoBarTemplate):
       self.button_donate.enabled = True
     self.checkUserPastPreference()
     self.checkSubscription()
+
   
   def link_playSelect_click(self, **event_args):
-    """This method is called when the link is clicked"""
+    """This method is called when the link of the dub info bar is clicked"""
     videoPlayerForm = self.parent.parent.parent
     language = 'Any language'
     accent = 'Any accent'
@@ -60,22 +58,6 @@ class DubInfoBar(DubInfoBarTemplate):
     else:
       routing.set_url_hash(url_pattern='video', url_dict={'ytid': videoID, 'audioid': audioID, 'language': language, 'accent': accent}, **video_properties)
     
-    # listOfDubInfoBars = self.parent.get_components()
-    # for item in listOfDubInfoBars:
-    #   item.column_panel_dubInfoBar.background = '#ffffff'
-    #   item.column_panel_dubInfoBar.foreground = '#000000'
-    #   item.link_playSelect.foreground = '#000000'
-    #   item.label_channelName.foreground = '#000000'
-    # self.column_panel_dubInfoBar.background = '#808080'
-    # self.column_panel_dubInfoBar.foreground = '#ffffff'
-    # self.link_playSelect.foreground = '#ffffff'
-    # # self.link_channel.foreground = '#ffffff'
-    # self.label_channelName.foreground = '#ffffff'
-    # videoPlayerForm = self.parent.parent.parent
-    # videoPlayerForm._audio = self.item['audio']
-    # videoPlayerForm._audioid = self.item['audioID']
-    # videoPlayerForm.playFirstTime = True
-    # videoPlayerForm.raise_event('x-refreshAudio')
 
   def checkLogin(self):
     homepage = get_open_form()
@@ -83,22 +65,25 @@ class DubInfoBar(DubInfoBarTemplate):
     
 
   def button_like_click(self, **event_args):
-    """This method is called when the button is clicked"""
+    """This method is called when the 'like' button is clicked"""
     loggedIn = self.checkLogin()
     if loggedIn:
       anvil.server.call('like_dub', self.item)
       self.refresh_data_bindings()
       self.checkUserPastPreference()
 
+  
   def button_dislike_click(self, **event_args):
-    """This method is called when the button is clicked"""
+    """This method is called when the 'dislike' button is clicked"""
     loggedIn = self.checkLogin()
     if loggedIn:
       anvil.server.call('dislike_dub', self.item)
       self.refresh_data_bindings()
       self.checkUserPastPreference()
-    
+
+  
   def checkUserPastPreference(self):
+    """Check whether the dub is liked/disliked/flagged by the current user in the past"""
     currentUser = anvil.users.get_user()
     if currentUser is not None:
       self.button_like.role = 'tonal-button'
@@ -111,8 +96,10 @@ class DubInfoBar(DubInfoBarTemplate):
         self.button_dislike.role = 'filled-button'
       if likeDislikeFlag[2]:
         self.button_flag.role = 'filled-button'
-    
+
+  
   def checkSubscription(self):
+    """Check whether the current user has subscribed to the channel and modify the 'subscribe' button accordingly"""
     self.button_subscribe.enabled = True
     currentUser = anvil.users.get_user()
     if currentUser is not None:
@@ -129,7 +116,7 @@ class DubInfoBar(DubInfoBarTemplate):
 
   
   def button_subscribe_click(self, **event_args):
-    """This method is called when the button is clicked"""
+    """This method is called when the 'subscribe' button is clicked"""
     currentUser = anvil.users.get_user()
     listOfDubInfoBars = self.parent.get_components()
     if currentUser is None:
@@ -145,27 +132,24 @@ class DubInfoBar(DubInfoBarTemplate):
       else:
         Notification('Sorry. Something is wrong.', style='warning', timeout=3).show()
 
+  
   def link_channel_click(self, **event_args):
-    """This method is called when the link is clicked"""
+    """This method is called when the link to the channel is clicked"""
     channelOwner = self.item['createdBy']
     currentUser = anvil.users.get_user()
-    contentPanel = get_open_form().content_panel
-    # contentPanel.clear()
     if currentUser is None:
       property = {'channelowner': channelOwner}
-      # contentPanel.add_component(Channel(**property))
       routing.set_url_hash(url_pattern='channel', url_dict={'channel': channelOwner['profileName']}, **property)
     else:
       if currentUser == channelOwner:
-        # contentPanel.add_component(Profile())
         routing.set_url_hash('profile')
       else:
         property = {'channelowner': channelOwner}
-        # contentPanel.add_component(Channel(**property))
         routing.set_url_hash(url_pattern='channel', url_dict={'channel': channelOwner['profileName']}, **property)
 
+  
   def button_flag_click(self, **event_args):
-    """This method is called when the button is clicked"""
+    """This method is called when the 'flag' button is clicked"""
     loggedIn = self.checkLogin()
     if loggedIn:
       likeDislikeFlag = anvil.server.call('userPastPreference', self.item)
@@ -206,24 +190,25 @@ class DubInfoBar(DubInfoBarTemplate):
           Notification('Something is wrong...', style='warning').show()
         self.checkUserPastPreference()
 
+  
   def button_donate_click(self, **event_args):
-    """This method is called when the button is clicked"""
+    """This method is called when the 'donate' button is clicked"""
     pass
 
+  
   def link_paypal_click(self, **event_args):
-    """This method is called when the link is clicked"""
+    """This method is called when the 'paypal' link is clicked"""
     if self.link_paypal.url == '':
       Notification('Channel does not accept donation.', timeout=3)
 
+  
   def button_share_click(self, **event_args):
-    """This method is called when the button is clicked"""
+    """This method is called when the 'share' button is clicked"""
     videoID = self.item['videoUrl']['youTubeVideoID']
     audioID = self.item['audioID']
     url_dict = 'ytid=' + videoID + '&audioid=' + audioID
     url_hash = 'video?' + url_dict
-    # link = 'https://dubtube.anvil.app/#video?ytid=AypRHjT7e4g&audioid=a16&language=Malay&accent=Machine'
     link = 'https://dubtube.anvil.app/#' + url_hash
-    # linkTextBox = TextBox(text=link)
     link_dict = {'link': link}
     anvil.alert(
       content=CopyShareLink(item=link_dict),

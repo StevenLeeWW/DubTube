@@ -39,6 +39,7 @@ components:
           data_bindings:
           - {property: youtube_id, code: 'self.item[''videoUrl''][''youTubeVideoID'']',
             writeback: false}
+          event_bindings: {state_change: youtube_video_state_change}
       - name: column_panel_2
         properties: {}
         type: ColumnPanel

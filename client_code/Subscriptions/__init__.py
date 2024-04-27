@@ -9,6 +9,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 from anvil_extras import routing
 
+
 @routing.route('subscription')
 class Subscriptions(SubscriptionsTemplate):
   def __init__(self, **properties):
@@ -27,12 +28,11 @@ class Subscriptions(SubscriptionsTemplate):
     self.init_components(**properties)
     self.refresh_subscription()
     get_open_form().new_released_not_listened_client()
-    # Any code you write here will run before the form opens.
 
   
   def refresh_subscription(self):
     user = anvil.users.get_user()
-    if user['subscriptionNewEmailNotification'] == True:
+    if user['subscriptionNewEmailNotification'] is True:
       self.label_stop_email.text = 'Want to stop receiving emails for new dubs?'
       self.button_stop_subscription_email.text = 'Stop receiving emails'
     else:
@@ -55,15 +55,15 @@ class Subscriptions(SubscriptionsTemplate):
 
   
   def button_stop_subscription_email_click(self, **event_args):
-    """This method is called when the button is clicked"""
+    """This method is called when the 'stop email notification' button is clicked"""
     user = anvil.users.get_user()
     previousSubscriptionNewEmail = True
-    if user['subscriptionNewEmailNotification'] == False:
+    if user['subscriptionNewEmailNotification'] is False:
       previousSubscriptionNewEmail = False
     success = anvil.server.call('stop_continue_subscription_new_dub_email')
     if success:
       Notification('Email notification setting changed successfully.', style='success', title='Success').show()
-      if previousSubscriptionNewEmail == True:
+      if previousSubscriptionNewEmail is True:
         self.label_stop_email.text = 'Want to continue receiving emails for new dubs?'
         self.button_stop_subscription_email.text = 'Continue receiving emails'
       else:

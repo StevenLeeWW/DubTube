@@ -10,6 +10,7 @@ from datetime import datetime, timedelta
 from anvil.tables import app_tables
 from anvil_extras import routing
 
+
 @routing.route('earnadmin')
 class Earn(EarnTemplate):
   def __init__(self, **properties):
@@ -31,9 +32,10 @@ class Earn(EarnTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self.refresh_top_tens()
-    # Any code you write here will run before the form opens.
+    
 
   def refresh_top_tens(self):
+    """Get the info needed for the page"""
     today = datetime.today()
     # Calculate the first day of the previous month
     first_day_of_previous_month = today.replace(day=1) - timedelta(days=1)

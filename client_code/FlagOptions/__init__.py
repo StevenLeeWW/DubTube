@@ -12,14 +12,14 @@ class FlagOptions(FlagOptionsTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-
-    # Any code you write here will run before the form opens.
+    
 
   def button_update_click(self, **event_args):
-    """This method is called when the button is clicked"""
+    """This method is called when the 'update' button is clicked"""
     self.raise_event("x-close-alert", value='update')
 
+  
   def button_delete_click(self, **event_args):
-    """This method is called when the button is clicked"""
+    """This method is called when the 'delete' button is clicked"""
     self.raise_event("x-close-alert", value='delete')
 

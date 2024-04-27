@@ -10,6 +10,7 @@ from anvil.tables import app_tables
 from anvil.js.window import navigator
 from anvil_extras import routing
 
+
 @routing.route('flagadmin')
 class FlagAdmin(FlagAdminTemplate):
   def __init__(self, **properties):
@@ -36,6 +37,7 @@ class FlagAdmin(FlagAdminTemplate):
 
 
   def refresh_received_flags(self):
+    """Get all the flags"""
     receivedFlags = anvil.server.call('get_flags_admin')
     if len(receivedFlags) > 0:
       self.column_panel_noReceivedFlag.visible = False

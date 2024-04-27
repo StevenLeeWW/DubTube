@@ -28,6 +28,7 @@ class AccountEdit(AccountEditTemplate):
       self.label_validationMessage.text = 'Profile name is required.'
       self.column_panel_validation.visible = True
       return None
+    # If the profile name has not been taken
     if anvil.server.call('check_profile_name', self.info['profileName']):
       self.column_panel_validation.visible = False
       self.info['profileDescription'] = self.text_area_profileDescription.text

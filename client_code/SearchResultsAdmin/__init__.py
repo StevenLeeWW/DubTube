@@ -10,6 +10,7 @@ from anvil.tables import app_tables
 from ..RequestEdit import RequestEdit
 from anvil_extras import routing
 
+
 @routing.route('searchadmin', url_keys=['ytid', 'keyword', routing.ANY])
 class SearchResultsAdmin(SearchResultsAdminTemplate):
   def __init__(self, **properties):
@@ -37,7 +38,7 @@ class SearchResultsAdmin(SearchResultsAdminTemplate):
         if properties is None:
           Notification('Invalid URL.', style='warning', title='Alert', timeout=3).show()
           return None
-    except:
+    except Exception:
       properties = self.get_properties(properties)
       if properties is None:
         Notification('Invalid URL.', style='warning', title='Alert', timeout=3).show()
@@ -50,23 +51,29 @@ class SearchResultsAdmin(SearchResultsAdminTemplate):
     self.drop_down_searchAccent.items = ["Any accent", "Afghanistan", "Azerbaijan", "Bangladesh", "Belgium", "Burundi", "Chad", "China", "Czech Republic", "Ethiopia", "France", "Germany", "India", "Indonesia", "Iran", "Iraq", "Israel", "Italy", "Japan", "Kashmir", "Kosovo", "Kyrgyzstan", "Lesotho", "Machine", "Madagascar", "Malawi", "Malaysia", "Malta", "Mexico", "Montenegro", "Myanmar", "Nepal", "Netherlands", "Nigeria", "Pakistan", "Peru", "Philippines", "Poland", "Quebec", "Romania", "Russia", "Rwanda", "Senegal", "Serbia", "Slovakia", "Slovenia", "Somalia", "South Africa", "Spain", "Sri Lanka", "Sudan", "Swaziland", "Sweden", "Switzerland", "Tajikistan", "Tanzania", "Thailand", "Turkey", "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "Uzbekistan", "Yugoslavia", "Zimbabwe"]
     self.refresh_dubs()
 
+  
   @property
   def videourl(self):
     return self._videourl
 
+  
   @videourl.setter
   def videourl(self, value):
     self._videourl = value
 
+  
   @property
   def videotitlekeyword(self):
     return self._videotitlekeyword
 
+  
   @videotitlekeyword.setter
   def videotitlekeyword(self, value):
     self._videotitlekeyword = value
 
+  
   def get_properties(self, properties):
+    """Get the properties from the url"""
     try:
       videoid = routing.get_url_dict()['ytid']
       if videoid != '':
@@ -78,13 +85,14 @@ class SearchResultsAdmin(SearchResultsAdminTemplate):
         keyword = routing.get_url_dict()['keyword']
         properties['videotitlekeyword'] = keyword
       return properties
-    except:
+    except Exception:
       routing.set_url_hash('')
       routing.clear_cache()
       return None
+
   
   def refresh_dubs(self):
-    """Load existing dubs from the Data Table, and display them in the RepeatingPanel"""
+    """Get existing dubs from the Data Table, and display them in the RepeatingPanel"""
     dubRowsAtLeastOneDub = anvil.server.call('get_search_dubs', self._videourl, self._videotitlekeyword)
     dubRows = dubRowsAtLeastOneDub[0]
     atLeastOneDub = dubRowsAtLeastOneDub[1]
@@ -99,7 +107,9 @@ class SearchResultsAdmin(SearchResultsAdminTemplate):
         self.label_noAvailableDubs.text = 'Sorry. No matching videos are found in DubTube.'
       self.repeating_panel_searchResults.items = dubRows
 
+  
   def drop_down_change(self):
+    """Filter the search result based on the language and accent"""
     selectedLanguage = self.drop_down_searchLanguage.selected_value
     selectedAccent = self.drop_down_searchAccent.selected_value
     dubRowsAtLeastOneDub = anvil.server.call('get_search_dubs', self._videourl, self._videotitlekeyword, selectedLanguage, selectedAccent)
@@ -119,23 +129,26 @@ class SearchResultsAdmin(SearchResultsAdminTemplate):
         self.label_noAvailableDubs.text = 'Sorry. No available dubs yet for this video.'
       else:
         self.label_noAvailableDubs.text = 'Sorry. No matching videos are found in DubTube.'
-      self.repeating_panel_searchResults.items = unblockedDubRows
+      self.repeating_panel_searchResults.items = dubRows
 
+  
   def checkLogin(self):
     homepage = get_open_form()
     return homepage.checkLogin()
 
 
   def drop_down_searchLanguage_change(self, **event_args):
-    """This method is called when an item is selected"""
+    """This method is called when an item in the language drop down list is selected"""
     self.drop_down_change()
 
+  
   def drop_down_searchAccent_change(self, **event_args):
-    """This method is called when an item is selected"""
+    """This method is called when an item in the accent drop down list is selected"""
     self.drop_down_change()
 
+  
   def button_request_click(self, **event_args):
-    """This method is called when the button is clicked"""
+    """This method is called when the 'request' button is clicked"""
     loggedIn = self.checkLogin()
     if loggedIn:
       new_request = {}
@@ -153,6 +166,7 @@ class SearchResultsAdmin(SearchResultsAdminTemplate):
         elif message == 'exist':
           Notification('Requested in the past.', style='warning', timeout=3).show()
 
+  
   def button_create_click(self, **event_args):
     """This method is called when the button is clicked"""
     get_open_form().link_create_click()

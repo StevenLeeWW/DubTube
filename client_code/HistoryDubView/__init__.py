@@ -19,11 +19,10 @@ class HistoryDubView(HistoryDubViewTemplate):
     self.listenedOn = ''
     self.playFirstTime = True
     self.init_components(**properties)
-    # Any code you write here will run before the form opens.
 
 
   def link_video_click(self, **event_args):
-    """This method is called when the link is clicked"""
+    """This method is called when the video link is clicked"""
     videoUrl = self.item['videoUrl']['videoUrl']
     videoID = self.item['videoUrl']['youTubeVideoID']
     audio = self.item['audio']
@@ -35,12 +34,10 @@ class HistoryDubView(HistoryDubViewTemplate):
 
   
   def button_play_click(self, **event_args):
-    """This method is called when the button is clicked"""
+    """This method is called when the 'play in sync' button is clicked"""
     if self.button_play.text == 'Play in sync':
       self.youtube_video.play()
       self.audio_player.dom_nodes['audio'].play()
-      # print(self.audio_player.audioid)
-      # self.audio_player_play()
       self.button_play.text = 'Pause in sync'
       if self.playFirstTime:
         anvil.server.call('listen_dub', self.item['audioID'])
@@ -51,25 +48,34 @@ class HistoryDubView(HistoryDubViewTemplate):
       self.audio_player.dom_nodes['audio'].pause()
       self.button_play.text = 'Play in sync'
 
+  
   def button_delete_click(self, **event_args):
-    """This method is called when the button is clicked"""
+    """This method is called when the 'delete' button is clicked"""
     anvil.server.call('delete_history', self.item)
     self.parent.parent.refresh_histories()
 
+  
   def link_channel_click(self, **event_args):
-    """This method is called when the link is clicked"""
+    """This method is called when the link to the channel is clicked"""
     channelOwner = self.item['createdBy']
     currentUser = anvil.users.get_user()
     homepage = get_open_form()
     homepage.reset_links()
-    homepage.content_panel.clear()
     if currentUser is None:
       property = {'channelowner': channelOwner}
-      homepage.content_panel.add_component(Channel(**property))
+      routing.set_url_hash(url_pattern='channel', url_dict={'channel': channelOwner['profileName']}, **property)
     else:
       if currentUser == channelOwner:
-        homepage.content_panel.add_component(Profile())
+        routing.set_url_hash('profile')
       else:
         property = {'channelowner': channelOwner}
-        homepage.content_panel.add_component(Channel(**property))
+        routing.set_url_hash(url_pattern='channel', url_dict={'channel': channelOwner['profileName']}, **property)
+
+  
+  def youtube_video_state_change(self, state, **event_args):
+    """This method is called when the video changes state (eg PAUSED to PLAYING)"""
+    if state == 'PAUSED':
+      self.audio_player.dom_nodes['audio'].pause()
+    elif state == 'PLAYING':
+      self.audio_player.dom_nodes['audio'].play()
     

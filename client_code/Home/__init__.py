@@ -10,6 +10,7 @@ from anvil.tables import app_tables
 from anvil.js.window import navigator
 from anvil_extras import routing
 
+
 @routing.route('')
 class Home(HomeTemplate):
   def __init__(self, **properties):
@@ -24,6 +25,7 @@ class Home(HomeTemplate):
     if 'Firefox' in str(navigator.userAgent):
       self.label_seekable.visible = False
 
+  
   def refreshPage(self, **event_args):
     self.check_request_response_client()
 
@@ -31,11 +33,12 @@ class Home(HomeTemplate):
   def refresh_dubs(self):
     """Load existing dubs from the Data Table, and display them in the RepeatingPanel"""
     dubRows = anvil.server.call('get_dubs')
-    unblockedDubRows = [dub for dub in dubRows if dub['blocked'] == False]
+    unblockedDubRows = [dub for dub in dubRows if dub['blocked'] is False]
     self.repeating_panel_trending.items = unblockedDubRows
 
   
   def refresh_ads(self):
+    """Get today's advertisements"""
     adsLinksAndPics = anvil.server.call('get_today_advertisement')
     linkAndPic = adsLinksAndPics[0]
     if linkAndPic['link'] is not None and linkAndPic['advertisementPicture'] is not None:
@@ -62,18 +65,24 @@ class Home(HomeTemplate):
     else:
       self.link_your_dub_req.background = 'default'
 
-  def check_request_response_client(self):
-    responded = anvil.server.call('check_ads_accepted_approved')
-    if responded:
-      self.link_advertise.background = '#ff5f15'
+  
+  def check_ads_accepted_approved_client(self):
+    user = anvil.users.get_user()
+    if user is not None:
+      responded = anvil.server.call('check_ads_accepted_approved')
+      if responded:
+        self.link_advertise.background = '#ff5f15'
+      else:
+        self.link_advertise.background = 'default'
     else:
-      self.link_advertise.background = 'default'
+        self.link_advertise.background = 'default'
+
   
   def drop_down_trendLanguage_change(self, **event_args):
-    """This method is called when an item is selected"""
+    """This method is called when an item in the trending dubs drop down list is selected"""
     selectedLanguage = self.drop_down_trendLanguage.selected_value
     dubRows = anvil.server.call('get_dubs', selectedLanguage)
-    unblockedDubRows = [dub for dub in dubRows if dub['blocked'] == False]
+    unblockedDubRows = [dub for dub in dubRows if dub['blocked'] is False]
     if len(unblockedDubRows) > 0:
       self.column_panel_noAvailableDubs.visible = False
       self.repeating_panel_trending.items = unblockedDubRows
@@ -89,7 +98,7 @@ class Home(HomeTemplate):
   
   
   def link_liked2_click(self, **event_args):
-    """This method is called when the link is clicked"""
+    """This method is called when the link to the liked dubs is clicked"""
     loggedIn = self.checkLogin()
     if loggedIn:
       homePage = get_open_form()
@@ -97,14 +106,12 @@ class Home(HomeTemplate):
 
   
   def link_trending2_click(self, **event_args):
-    """This method is called when the link is clicked"""
+    """This method is called when the link to the trending dubs is clicked"""
     routing.set_url_hash('trending')
-    # homePage = get_open_form()
-    # homePage.link_trending2_click()
 
   
   def link_your_dub_req_click(self, **event_args):
-    """This method is called when the link is clicked"""
+    """This method is called when the link to the requests is clicked"""
     loggedIn = self.checkLogin()
     if loggedIn:
       homePage = get_open_form()
@@ -112,18 +119,19 @@ class Home(HomeTemplate):
 
   
   def link_public_request_click(self, **event_args):
-    """This method is called when the link is clicked"""
+    """This method is called when the link to the public requests is clicked"""
     homePage = get_open_form()
     homePage.link_public_request_click()
 
   
   def link_content2_click(self, **event_args):
-    """This method is called when the link is clicked"""
+    """This method is called when the link to the content is clicked"""
     homePage = get_open_form()
     homePage.link_content_click()
 
+  
   def link_advertise_click(self, **event_args):
-    """This method is called when the link is clicked"""
+    """This method is called when the link to the advertisement page is clicked"""
     homePage = get_open_form()
     homePage.link_advertise_click()
     

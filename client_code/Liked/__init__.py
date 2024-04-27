@@ -11,6 +11,7 @@ from datetime import datetime, timedelta
 from anvil.js.window import navigator
 from anvil_extras import routing
 
+
 @routing.route('liked')
 class Liked(LikedTemplate):
   def __init__(self, **properties):
@@ -35,12 +36,17 @@ class Liked(LikedTemplate):
     if 'Firefox' in str(navigator.userAgent):
       self.label_seekable.visible = False
 
+
+  def refresh_liked(self):
+    """Get existing liked dubs from the Data Table"""
+    liked = anvil.server.call('get_liked')
+    self.refresh_liked_helper(liked)
+    
   
   def refresh_liked_helper(self, liked):
-    """Load existing histories from the Data Table, and display them in the RepeatingPanel"""
+    """Get liked dubs, and display them in the RepeatingPanel"""
     likedAudios = liked[0]
     likedOns = liked[1]
-    
     if len(likedAudios) == 0:
       self.column_panel_noLiked.visible = True
       self.repeating_panel.visible = False
@@ -55,19 +61,12 @@ class Liked(LikedTemplate):
       self.repeating_panel.visible = True
 
   
-  def refresh_liked(self):
-    """Load existing liked from the Data Table, and display them in the RepeatingPanel"""
-    liked = anvil.server.call('get_liked')
-    self.refresh_liked_helper(liked)
-
-  
   def button_clearLiked_click(self, **event_args):
-    """This method is called when the button is clicked"""
+    """This method is called when the 'clear liked' button is clicked"""
     if confirm(title='Warning', content='Do you want to clear all your like-history?'):
       anvil.server.call('clear_liked')
       self.refresh_liked()
-      clearLikedNote = Notification('All like-history have been cleared.')
-      clearLikedNote.show()
+      Notification('All like-history have been cleared.', style='success', title='Success').show()
 
   
   def date_picker_filter_change(self, **event_args):
@@ -77,16 +76,19 @@ class Liked(LikedTemplate):
 
   
   def drop_down_language_change(self, **event_args):
-    """This method is called when an item is selected"""
+    """This method is called when an item from the language drop down list is selected"""
     liked = anvil.server.call('get_liked', self.date_picker_filter.date, self.drop_down_language.selected_value, self.drop_down_accent.selected_value)
     self.refresh_liked_helper(liked)
 
+  
   def drop_down_accent_change(self, **event_args):
-    """This method is called when an item is selected"""
+    """This method is called when an item from the accent drop down list is selected"""
     liked = anvil.server.call('get_liked', self.date_picker_filter.date, self.drop_down_language.selected_value, self.drop_down_accent.selected_value)
     self.refresh_liked_helper(liked)
 
+  
   def searchLiked(self):
+    """Search the like dub"""
     if self.text_box_searchLiked.text != '':
       if anvil.server.call('get_video_id_from_url', self.text_box_searchLiked.text) is not None:
         videoUrl = self.text_box_searchLiked.text
@@ -114,16 +116,19 @@ class Liked(LikedTemplate):
         liked = [[], []]
         self.refresh_liked_helper(liked)
 
+  
   def text_box_searchLiked_pressed_enter(self, **event_args):
     """This method is called when the user presses Enter in this text box"""
     self.searchLiked()
 
+  
   def button_searchLiked_click(self, **event_args):
-    """This method is called when the button is clicked"""
+    """This method is called when the 'search' button is clicked"""
     self.searchLiked()
 
+  
   def button_showAll_click(self, **event_args):
-    """This method is called when the button is clicked"""
+    """This method is called when the 'show all' button is clicked"""
     self.drop_down_language.selected_value = 'Any language'
     self.drop_down_accent.selected_value = 'Any accent'
     self.date_picker_filter.date = datetime.now().date()

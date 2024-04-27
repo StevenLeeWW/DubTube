@@ -24,14 +24,13 @@ class PublicRequestView(PublicRequestViewTemplate):
 
   
   def button_create_click(self, **event_args):
-    """This method is called when the button is clicked"""
+    """This method is called when the 'create' button is clicked"""
     get_open_form().link_create.role = 'selected'
     loggedIn = self.checkLogin()
     if loggedIn:
-      currentUser = anvil.users.get_user()
+      # currentUser = anvil.users.get_user()
       requestRow = dict(self.item)
       new_dub = {'videoUrl': requestRow['requestVideoUrl'], 'language': requestRow['requestLanguage'], 'accent': requestRow['requestAccent']}
-      # print(new_dub)
       mode = {'mode': 'create'}
       save_clicked = alert(
         content=DubEdit(item=new_dub, **mode),

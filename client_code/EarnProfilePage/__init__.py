@@ -7,19 +7,18 @@ import anvil.server
 import anvil.google.auth, anvil.google.drive
 from anvil.google.drive import app_files
 import anvil.users
-import anvil.tables as tables
-import anvil.tables.query as q
 from datetime import datetime, timedelta
-from anvil.tables import app_tables
+
 
 class EarnProfilePage(EarnProfilePageTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self.refresh_top_tens()
-    # Any code you write here will run before the form opens.
+    
 
   def refresh_top_tens(self):
+    """Get the needed info for the page"""
     today = datetime.today()
     # Calculate the first day of the previous month
     first_day_of_previous_month = today.replace(day=1) - timedelta(days=1)

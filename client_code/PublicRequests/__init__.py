@@ -10,6 +10,7 @@ from anvil.tables import app_tables
 from datetime import datetime
 from anvil_extras import routing
 
+
 @routing.route('publicrequest')
 class PublicRequests(PublicRequestsTemplate):
   def __init__(self, **properties):
@@ -23,8 +24,18 @@ class PublicRequests(PublicRequestsTemplate):
     self.refresh_requests()
 
 
+  def refresh_requests(self):
+    """Get existing requests from the Data Table"""
+    selectedLanguage = self.drop_down_language.selected_value
+    selectedAccent = self.drop_down_accent.selected_value
+    selectedNumberOfResults = int(self.drop_down_numberOfResults.selected_value)
+    date = self.date_picker.date
+    requests = anvil.server.call('get_requests', selectedLanguage, selectedAccent, selectedNumberOfResults, None, date)
+    self.refresh_requests_helper(requests)
+
+  
   def refresh_requests_helper(self, requests):
-    """Load existing requests from the Data Table, and display them in the RepeatingPanel"""
+    """Get existing requests and display them in the RepeatingPanel"""
     requestRows = requests[0]
     numberOfRequest = requests[1]
     if len(requestRows) == 0:
@@ -42,35 +53,27 @@ class PublicRequests(PublicRequestsTemplate):
       self.column_panel_noRequest.visible = False
       self.repeating_panel.visible = True
   
-  
-  def refresh_requests(self):
-    """Load existing requests from the Data Table, and display them in the RepeatingPanel"""
-    selectedLanguage = self.drop_down_language.selected_value
-    selectedAccent = self.drop_down_accent.selected_value
-    selectedNumberOfResults = int(self.drop_down_numberOfResults.selected_value)
-    date = self.date_picker.date
-    requests = anvil.server.call('get_requests', selectedLanguage, selectedAccent, selectedNumberOfResults, None, date)
-    self.refresh_requests_helper(requests)
-
 
   def drop_down_language_change(self, **event_args):
-    """This method is called when an item is selected"""
+    """This method is called when an item in the language drop down list is selected"""
     self.refresh_requests()
 
   
   def drop_down_accent_change(self, **event_args):
-    """This method is called when an item is selected"""
+    """This method is called when an item in the accent drop down list is selected"""
     self.refresh_requests()
 
   
   def drop_down_numberOfResults_change(self, **event_args):
-    """This method is called when an item is selected"""
+    """This method is called when an item in the number of result drop down list is selected"""
     self.refresh_requests()
 
+  
   def date_picker_change(self, **event_args):
     """This method is called when the selected date changes"""
     self.refresh_requests()
 
+  
   def text_box_search_pressed_enter(self, **event_args):
     """This method is called when the user presses Enter in this text box"""
     if self.text_box_search.text != '':
@@ -83,10 +86,12 @@ class PublicRequests(PublicRequestsTemplate):
       requests = anvil.server.call('get_search_requests', videoUrl, keyword)
       self.refresh_requests_helper(requests)
 
+  
   def button_search_click(self, **event_args):
-    """This method is called when the button is clicked"""
+    """This method is called when the 'search' button is clicked"""
     self.text_box_search_pressed_enter()
 
+  
   def button_showAll_click(self, **event_args):
-    """This method is called when the button is clicked"""
+    """This method is called when the 'show all' button is clicked"""
     self.refresh_requests()

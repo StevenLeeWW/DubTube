@@ -13,6 +13,7 @@ from ..ProfileContent import ProfileContent
 from ..EarnProfilePage import EarnProfilePage
 from anvil_extras import routing
 
+
 @routing.route('profile')
 class Profile(ProfileTemplate):
   def __init__(self, **properties):
@@ -36,14 +37,17 @@ class Profile(ProfileTemplate):
 
 
   def showContent(self):
+    """Add the profile content section into the page"""
     self.column_panel_content.add_component(ProfileContent())
 
 
   def showEarn(self):
+    """Add the earning section into the page"""
     self.column_panel_earn.add_component(EarnProfilePage())
 
   
   def refresh_profile(self):
+    """Get the needed info for the page"""
     user = anvil.users.get_user()
     if user['profilePicture'] is not None:
       self.channel_picture.source = user['profilePicture']
@@ -66,20 +70,16 @@ class Profile(ProfileTemplate):
       self.repeating_panel.visible = True
     
 
-  
   def button_editProfile_click(self, **event_args):
-    """This method is called when the button is clicked"""
+    """This method is called when the 'edit' button is clicked"""
     user = anvil.users.get_user()
     userRowCopy = dict(user)
-    # print(userRowCopy)
     updatedUser = alert(
       content=AccountEdit(item=userRowCopy),
-      # title = 'Update Dub',
       large=True,
       buttons=[("Cancel", None)],
     )
     if updatedUser is not None:
-      # print(updatedUser)
       updateSuccessful = anvil.server.call('update_user', user, updatedUser)
       if updateSuccessful:
         Notification('Update successfully.', title='Alert', style='success').show()
@@ -90,7 +90,7 @@ class Profile(ProfileTemplate):
 
   
   def button_deleteProfilePicture_click(self, **event_args):
-    """This method is called when the button is clicked"""
+    """This method is called when the 'delete profile picture' button is clicked"""
     if confirm('Are you sure you want to delete this profile picture?', title='Warning'):
       if anvil.server.call('delete_profilePicture', anvil.users.get_user()):
         Notification('Deleted successfully', style='success').show()
@@ -101,8 +101,7 @@ class Profile(ProfileTemplate):
 
   
   def button_addLinks_click(self, **event_args):
-    """This method is called when the button is clicked"""
-    # new_link = {}
+    """This method is called when the 'add links' button is clicked"""
     mode = {'mode': 'create'}
     new_link = alert(
       content=LinkEdit(**mode),
@@ -116,8 +115,10 @@ class Profile(ProfileTemplate):
         self.refresh_profile()
       else:
         Notification('Sorry. Fail to create new link', title='Alert', style='warning', timeout=3).show()
-      
+
+  
   def delete_link(self, linkRow, **event_args):
+    """This method is called when the 'delete link' button in the link info bar is clicked"""
     deleteSuccessful = anvil.server.call('delete_link', linkRow)
     if deleteSuccessful:
       Notification('Link deleted successfully', style='success').show()

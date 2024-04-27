@@ -10,6 +10,7 @@ from anvil.tables import app_tables
 from ..DubView import DubView
 from ..FlagReceivedDetails import FlagReceivedDetails
 
+
 class FlagReceivedInfoBar(FlagReceivedInfoBarTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
@@ -23,26 +24,28 @@ class FlagReceivedInfoBar(FlagReceivedInfoBarTemplate):
     audioRow = self.item[0]
     self.column_panel_dub.add_component(DubView(item=audioRow))
     self.column_panel_dub.get_components()[0].column_panel_1.role = 'default'
-    if self.item[5] == False:
+    if self.item[5] is False:
       self.column_panel.background = '#FFC300'
 
+  
   def button_view_click(self, **event_args):
-    """This method is called when the button is clicked"""
+    """This method is called when the 'view' button is clicked"""
     properties = {'flagreason': self.item[1], 'flagdetails': self.item[4]}
     alert(
       content=FlagReceivedDetails(**properties),
       large=True,
       buttons=[('OK', True)]
     )
-    if anvil.users.get_user()['admin'] == False:
+    if anvil.users.get_user()['admin'] is False:
       anvil.server.call('mark_flag_read', self.item[0], self.item[1])
     else:
       anvil.server.call('mark_flag_read_admin', self.item[0], self.item[1])
     self.column_panel.background = 'white'
     get_open_form().unread_flags_client()
 
+  
   def button_delete_click(self, **event_args):
-    """This method is called when the button is clicked"""
+    """This method is called when the 'delete' button is clicked"""
     if confirm('Do you want to delete the flags for this dub?'):
       audioRow = self.item[0]
       flagReason = self.item[1]

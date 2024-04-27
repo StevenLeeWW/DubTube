@@ -10,6 +10,7 @@ from anvil.tables import app_tables
 from anvil.js.window import navigator
 from anvil_extras import routing
 
+
 @routing.route('flag')
 class Flag(FlagTemplate):
   def __init__(self, **properties):
@@ -38,6 +39,7 @@ class Flag(FlagTemplate):
 
   
   def refresh_raised_flags(self):
+    """Get and display the flags raised by the current user"""
     myFlags = anvil.server.call('get_my_flags')
     if len(myFlags) > 0:
       self.column_panel_noRaisedFlag.visible = False
@@ -47,9 +49,11 @@ class Flag(FlagTemplate):
       self.repeating_panel_raisedFlags.visible = False
       self.column_panel_noRaisedFlag.visible = True
 
+  
   def refresh_received_flags(self):
+    """Get the flags received by the current user"""
     user = anvil.users.get_user()
-    if user['flagNewEmailNotification'] == True:
+    if user['flagNewEmailNotification']:
       self.label_stop_email.text = 'Want to stop receiving email notifications when new flag is received?'
       self.button_stop_email_notification.text = 'Stop receiving emails'
     else:
@@ -64,16 +68,17 @@ class Flag(FlagTemplate):
       self.repeating_panel_receivedFlags.visible = False
       self.column_panel_noReceivedFlag.visible = True
 
+  
   def button_stop_email_notification_click(self, **event_args):
-    """This method is called when the button is clicked"""
+    """This method is called when the 'stop email notification' button is clicked"""
     user = anvil.users.get_user()
     previousFlagNewEmail = True
-    if user['flagNewEmailNotification'] == False:
+    if not user['flagNewEmailNotification']:
       previousFlagNewEmail = False
     success = anvil.server.call('stop_continue_flag_email')
     if success:
       Notification('Email notification setting changed successfully.', style='success', title='Success').show()
-      if previousFlagNewEmail == True:
+      if previousFlagNewEmail is True:
         self.label_stop_email.text = 'Want to continue receiving email notifications when new flag is received?'
         self.button_stop_email_notification.text = 'Continue receiving emails'
       else:

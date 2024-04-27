@@ -17,6 +17,7 @@ class LinkBar(LinkBarTemplate):
     # Any code you write here will run before the form opens.
 
   def refresh(self):
+    """Set the source of the logo image source based on the social media name"""
     if self.item['socialMediaName'] == 'YouTube':
       self.image_logo.source = '_/theme/Youtube_logo.png'
     elif self.item['socialMediaName'] == 'Instagram':
@@ -36,7 +37,7 @@ class LinkBar(LinkBarTemplate):
 
   
   def button_edit_click(self, **event_args):
-    """This method is called when the button is clicked"""
+    """This method is called when the 'edit' button is clicked"""
     parameters = {'mode': 'update', 'socialmedianame': self.item['socialMediaName'], 'link': self.item['link']}
     link_dict = alert(
       content=LinkEdit(**parameters),
@@ -52,7 +53,7 @@ class LinkBar(LinkBarTemplate):
         Notification('Sorry. Fail to update the link', title='Alert', style='warning', timeout=3).show()
 
   def button_delete_click(self, **event_args):
-    """This method is called when the button is clicked"""
+    """This method is called when the 'delete' button is clicked"""
     if confirm('Are you sure you want to delete this link?', title='Warning'):
       self.parent.raise_event('x-delete-link', linkRow=self.item)
     

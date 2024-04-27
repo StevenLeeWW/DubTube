@@ -9,14 +9,17 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 from ..LinkEdit import LinkEdit
 
+
 class ChannelLinkBar(ChannelLinkBarTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    self.refresh()
     # Any code you write here will run before the form opens.
+    self.refresh()
+    
 
   def refresh(self):
+    """Set the source of the logo image based on the type of social media"""
     if self.item['socialMediaName'] == 'YouTube':
       self.image_logo.source = '_/theme/Youtube_logo.png'
     elif self.item['socialMediaName'] == 'Instagram':

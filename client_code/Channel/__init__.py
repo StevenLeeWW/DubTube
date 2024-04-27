@@ -13,9 +13,11 @@ from ..ChannelContent import ChannelContent
 from ..Profile import Profile
 from anvil_extras import routing
 
+
 @routing.route('channel', url_keys=['channel'])
 class Channel(ChannelTemplate):
   def __init__(self, **properties):
+    # Any code you write here will run before the form opens.
     try:
       if properties['channelowner'] != '':
         pass
@@ -35,13 +37,13 @@ class Channel(ChannelTemplate):
     self.add_event_handler('x-refreshPage', self.refreshPage)
     self.refresh_channel()
     self.showContent()
-    # Any code you write here will run before the form opens.
 
 
   @property
   def channelowner(self):
     return self._channelowner
 
+  
   @channelowner.setter
   def channelowner(self, user):
     self._channelowner = user
@@ -51,23 +53,30 @@ class Channel(ChannelTemplate):
     channelowner = {'channelowner': self._channelowner}
     self.column_panel_content.add_component(ChannelContent(**channelowner))
 
+  
   def refreshPage(self, **event_args):
     self.refresh_channel()
     self.showContent()
+
   
   def refresh_channel(self):
+    """Get the necessary info for the page and display them"""
     user = self._channelowner
+    # Profile picture
     if user['profilePicture'] is not None:
       self.channel_picture.source = user['profilePicture']
     else:
       self.channel_picture.source = '_/theme/userDefault.jpg'
+    # Profile name, number of subscribers, number of dubs
     self.label_profileName.text = user['profileName']
     self.label_subscribers.text = str(user['subscribers']) + ' subscribers'
     self.label_dubs.text = str(user['dubs']) + ' dubs'
+    # Profile description
     if user['profileDescription'] is None:
       self.label_description.text = 'None'
     else:
       self.label_description.text = user['profileDescription']
+    # Links
     links = anvil.server.call('get_links', user)
     if len(links) == 0:
       self.column_panel_noLinks.visible = True
@@ -80,15 +89,15 @@ class Channel(ChannelTemplate):
 
 
   def get_channel_owner_client(self, properties):
+    """Get the channel owner info from the URL"""
     try:
       profileName = routing.get_url_dict()['channel']
-      # print(profileName)
       channelOwner = anvil.server.call('get_channel_owner', profileName)
       if channelOwner is not None:
         properties['channelowner'] = channelOwner
         return properties
       else:
-        # Notification('This channel does not exist.', title='Alert', style='warning', timeout=3).show()
+        # The channel does not exist, go back to the home page
         routing.set_url_hash('')
         routing.clear_cache()
         return None
@@ -96,8 +105,10 @@ class Channel(ChannelTemplate):
       routing.set_url_hash('')
       routing.clear_cache()
       return None
+
   
   def checkSubscription(self):
+    """Check whether the current user has subscribed to the channel"""
     currentUser = anvil.users.get_user()
     if currentUser is not None:
       subscribed = anvil.server.call('checkSubscription', self._channelowner)
@@ -109,19 +120,18 @@ class Channel(ChannelTemplate):
         self.label_subscribeStatus.visible = False
         self.button_subscribe.text = 'Subscribe'
     else:
-        self.label_subscribeStatus.visible = False
-        self.button_subscribe.text = 'Subscribe'
+      # If the user is not logged in
+      self.label_subscribeStatus.visible = False
+      self.button_subscribe.text = 'Subscribe'
     
   
   def button_subscribe_click(self, **event_args):
-    """This method is called when the button is clicked"""
+    """This method is called when the 'subscribe' button is clicked"""
     loggedIn = get_open_form().checkLogin()
     if loggedIn:
       currentUser = anvil.users.get_user()
       if currentUser == self._channelowner:
-        content_panel = get_open_form().content_panel
-        content_panel.clear()
-        content_panel.add_component(Profile())
+        routing.set_url_hash('profile')
       else:
         self.checkSubscription()
         success = anvil.server.call('subscribeUnsubscribe', self._channelowner)

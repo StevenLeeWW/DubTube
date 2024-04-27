@@ -10,6 +10,7 @@ from anvil.tables import app_tables
 from ..CreateDub import CreateDub
 from anvil_extras import routing
 
+
 class DubEdit(DubEditTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
@@ -22,33 +23,39 @@ class DubEdit(DubEditTemplate):
     self.setTitle()
     self.setUrl()
 
+  
   @property
   def mode(self):
     return self._mode
 
+  
   @mode.setter
   def mode(self, value):
     self._mode = value
 
+  
   def setTitle(self):
     if self._mode == 'create':
       self.label_panelTitle.text = 'Create new dub'
     elif self._mode == 'update':
       self.label_panelTitle.text = 'Update the dub'
     else:
-      print("Something wrong")
+      Notification("Something wrong. Title cannot be set.", style='warning', title='Alert').show()
 
+  
   def setUrl(self):
     if self._mode == 'update':
       self.text_box_videoUrl.text = self.item['videoUrl']['videoUrl']
       self.text_box_videoUrl.enabled = False
+
   
   def file_loader_uploadDub_change(self, file, **event_args):
     """This method is called when a new file is loaded into this FileLoader"""
     self.item['audio'] = file
 
+  
   def button_save_click(self, **event_args):
-    """This method is called when the button is clicked"""
+    """This method is called when the 'save' button is clicked"""
     if self.text_box_videoUrl.text == '':
       self.label_validationMessage.text = 'Video URL is required'
       self.column_panel_validation.visible = True
@@ -60,28 +67,29 @@ class DubEdit(DubEditTemplate):
       return None
     try:
       audio = self.item['audio']
-    except:
+      if audio is not None:
+        pass
+    except Exception:
       self.label_validationMessage.text = 'Audio file is required'
       self.column_panel_validation.visible = True
       return None
     self.column_panel_validation.visible = False
     self.raise_event("x-close-alert", value=True)  
 
+  
   def button_generate_click(self, **event_args):
-    """This method is called when the button is clicked"""
+    """This method is called when the 'advance' button is clicked"""
     if self.text_box_videoUrl.text == '':
       self.label_validationMessage.text = 'Video URL is required'
       self.column_panel_validation.visible = True
       return None
     videoUrl = self.text_box_videoUrl.text
+    # Check whether the video url is valid
     if anvil.server.call('get_video_id_from_url', videoUrl) is None or anvil.server.call('get_video_title_from_url', videoUrl) is None:
       self.label_validationMessage.text = 'Video URL is not valid.'
       self.column_panel_validation.visible = True
       return None
-    homePage = get_open_form()
-    # homePage.content_panel.clear()
     properties = {'videourl': videoUrl}
-    homePage.content_panel.add_component(CreateDub(**properties))
     routing.set_url_hash(url_pattern='create', **properties)
     self.raise_event("x-close-alert", value=False)
     

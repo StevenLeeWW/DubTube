@@ -12,9 +12,9 @@ class AdvertisementEdit(AdvertisementEditTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    self.setConfig()
     # Any code you write here will run before the form opens.
-
+    self.setConfig()
+    
 
   @property
   def mode(self):
@@ -42,13 +42,14 @@ class AdvertisementEdit(AdvertisementEditTemplate):
 
   
   def setConfig(self):
+    """Set the mode and the title of the editor"""
     if self._mode == 'create':
       self.label_panel_title.text = 'Apply for new ad placement'
     elif self._mode == 'update':
       self.label_panel_title.text = 'Update the ad placement application'
       self.text_box_link.text = self._link
     else:
-      print("Something wrong")
+      Notification('Fail to determine the mode...', style='warning', title='Alert').show()
     
 
   def file_loader_change(self, file, **event_args):
@@ -67,6 +68,7 @@ class AdvertisementEdit(AdvertisementEditTemplate):
 
   def button_save_click(self, **event_args):
     """This method is called when the button is clicked"""
+    # Validation
     self._link = self.text_box_link.text
     if self._link == '':
       self.label_validation.text = 'Link is required.'

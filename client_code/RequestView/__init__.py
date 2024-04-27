@@ -7,7 +7,6 @@ import anvil.server
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
-# from ..Homepage import Homepage
 from ..VideoPlayer import VideoPlayer
 from anvil_extras import routing
 
@@ -26,16 +25,16 @@ class RequestView(RequestViewTemplate):
     else:
       self.label_responded.visible = False
       self.button_watch.enabled = False
-    # Any code you write here will run before the form opens.
 
 
   def button_delete_click(self, **event_args):
-    """This method is called when the button is clicked"""
+    """This method is called when the 'delete' button is clicked"""
     anvil.server.call('delete_request', self.item)
     self.parent.parent.refresh_requests()
 
+  
   def button_watch_click(self, **event_args):
-    """This method is called when the button is clicked"""
+    """This method is called when the 'watch' button is clicked"""
     videoUrl = self.link_video.url
     language = self.item['requestLanguage']
     accent = self.item['requestAccent']
@@ -45,6 +44,6 @@ class RequestView(RequestViewTemplate):
     videoID = audioRow['videoUrl']['youTubeVideoID']
     homepage = get_open_form()
     homepage.reset_links()
-    homepage.content_panel.clear()
+    # homepage.content_panel.clear()
     video_properties = {'videourl': videoUrl, 'audio': audio, 'audioid': audioID}
     routing.set_url_hash(url_pattern='video', url_dict={'ytid': videoID, 'audioid': audioID}, **video_properties)

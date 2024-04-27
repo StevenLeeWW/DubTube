@@ -10,6 +10,7 @@ from anvil.tables import app_tables
 from datetime import datetime, timedelta
 from anvil_extras import routing
 
+
 @routing.route('request')
 class Requests(RequestsTemplate):
   def __init__(self, **properties):
@@ -31,12 +32,27 @@ class Requests(RequestsTemplate):
     self.drop_down_accent.items = ["Any accent", "Afghanistan", "Azerbaijan", "Bangladesh", "Belgium", "Burundi", "Chad", "China", "Czech Republic", "Ethiopia", "France", "Germany", "India", "Indonesia", "Iran", "Iraq", "Israel", "Italy", "Japan", "Kashmir", "Kosovo", "Kyrgyzstan", "Lesotho", "Madagascar", "Malawi", "Malaysia", "Malta", "Mexico", "Montenegro", "Myanmar", "Nepal", "Netherlands", "Nigeria", "Pakistan", "Peru", "Philippines", "Poland", "Quebec", "Romania", "Russia", "Rwanda", "Senegal", "Serbia", "Slovakia", "Slovenia", "Somalia", "South Africa", "Spain", "Sri Lanka", "Sudan", "Swaziland", "Sweden", "Switzerland", "Tajikistan", "Tanzania", "Thailand", "Turkey", "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "Uzbekistan", "Yugoslavia", "Zimbabwe"]
     self.refresh_requests()
 
+  def refresh_requests(self):
+    """Get existing requests from the Data Table"""
+    user = anvil.users.get_user()
+    if user['requestResponseEmailNotification'] is True:
+      self.label_stop_email.text = 'Want to stop receiving email notification when someone responded to your request?'
+      self.button_stop_email.text = 'Stop receiving emails'
+    else:
+      self.label_stop_email.text = 'Want to continue receiving email notification when someone responded to your request?'
+      self.button_stop_email.text = 'Continue receiving emails'
+    language = self.drop_down_language.selected_value
+    accent = self.drop_down_accent.selected_value
+    date = self.date_picker_filter.date
+    user = anvil.users.get_user()
+    requests = anvil.server.call('get_requests', language, accent, None, user, date)
+    self.refresh_requests_helper(requests)
+
   
   def refresh_requests_helper(self, requests):
-    """Load existing requests from the Data Table, and display them in the RepeatingPanel"""
+    """Get existing requests and display them in the RepeatingPanel"""
     requestRows = requests[0]
     numberOfRequest = requests[1]
-
     if len(requestRows) == 0:
       self.column_panel_noRequest.visible = True
       self.repeating_panel.visible = False
@@ -52,48 +68,36 @@ class Requests(RequestsTemplate):
       self.column_panel_noRequest.visible = False
       self.repeating_panel.visible = True
 
-  def refresh_requests(self):
-    """Load existing requests from the Data Table, and display them in the RepeatingPanel"""
-    user = anvil.users.get_user()
-    if user['requestResponseEmailNotification'] == True:
-      self.label_stop_email.text = 'Want to stop receiving email notification when someone responded to your request?'
-      self.button_stop_email.text = 'Stop receiving emails'
-    else:
-      self.label_stop_email.text = 'Want to continue receiving email notification when someone responded to your request?'
-      self.button_stop_email.text = 'Continue receiving emails'
-    language = self.drop_down_language.selected_value
-    accent = self.drop_down_accent.selected_value
-    date = self.date_picker_filter.date
-    user = anvil.users.get_user()
-    # print('bbbbbbbbb')
-    requests = anvil.server.call('get_requests', language, accent, None, user, date)
-    self.refresh_requests_helper(requests)
 
   def button_clearRequest_click(self, **event_args):
-    """This method is called when the button is clicked"""
+    """This method is called when the 'clear' button is clicked"""
     if confirm(title='Warning', content='Do you want to clear all your requests?'):
       anvil.server.call('clear_request')
       self.refresh_requests()
-      clearRequestsNote = Notification('All requests have been cleared.').show()
+      Notification('All requests have been cleared.').show()
 
+  
   def date_picker_filter_change(self, **event_args):
     """This method is called when the selected date changes"""
     self.refresh_requests()
     dateToday = datetime.today()
     dateOneYearAgo = dateToday - timedelta(days=365)
     if self.date_picker_filter.date < dateOneYearAgo:
-      dateFilterNote = Notification('Records older than 60 days might have been deleted by system.', style='warning', timeout=3, title='Attention')
-      dateFilterNote.show()
+      Notification('Records older than 60 days might have been deleted by system.', style='warning', timeout=3, title='Attention').show()
+      
 
   def drop_down_language_change(self, **event_args):
-    """This method is called when an item is selected"""
+    """This method is called when an item in the language drop down list is selected"""
     self.refresh_requests()
 
+  
   def drop_down_accent_change(self, **event_args):
-    """This method is called when an item is selected"""
+    """This method is called when an item in the accent drop down list is selected"""
     self.refresh_requests()
 
+  
   def searchRequests(self):
+    """Search for request"""
     if self.text_box_searchRequest.text != '':
       if anvil.server.call('get_video_id_from_url', self.text_box_searchRequest.text) is not None:
         videoUrl = self.text_box_searchRequest.text
@@ -109,27 +113,30 @@ class Requests(RequestsTemplate):
     """This method is called when the user presses Enter in this text box"""
     self.searchRequests()
 
+  
   def button_searchRequest_click(self, **event_args):
-    """This method is called when the button is clicked"""
+    """This method is called when the 'search' button is clicked"""
     self.searchRequests()
 
+  
   def button_showAll_click(self, **event_args):
-    """This method is called when the button is clicked"""
+    """This method is called when the 'show all' button is clicked"""
     self.drop_down_language.selected_value = 'Any language'
     self.drop_down_accent.selected_value = 'Any accent'
     self.date_picker_filter.date = datetime.now().date()
     self.refresh_requests()
 
+  
   def button_stop_email_click(self, **event_args):
-    """This method is called when the button is clicked"""
+    """This method is called when the 'stop email notification' button is clicked"""
     user = anvil.users.get_user()
     previousRequestResponseEmail = True
-    if user['requestResponseEmailNotification'] == False:
+    if user['requestResponseEmailNotification'] is False:
       previousRequestResponseEmail = False
     success = anvil.server.call('stop_continue_request_response_email')
     if success:
       Notification('Email notification setting changed successfully.', style='success', title='Success').show()
-      if previousRequestResponseEmail == True:
+      if previousRequestResponseEmail is True:
         self.label_stop_email.text = 'Want to continue receiving email notification when someone responded to your request?'
         self.button_stop_email.text = 'Continue receiving emails'
       else:
